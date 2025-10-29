@@ -98,6 +98,41 @@
             <a href="https://acai-backend.onrender.com/state" target="_blank" rel="noopener">Emotional Core</a>
             <a href="about.html" class="btn">Learn More</a>
           </div>
+
+          <!-- Telegram Login Widget -->
+<div id="telegram-login" style="margin-top:2em;">
+  <script async src="https://telegram.org/js/telegram-widget.js?22"
+    data-telegram-login="ACAI_Assistante_bot"
+    data-size="large"
+    data-userpic="false"
+    data-request-access="write"
+    data-auth-url="https://acai-backend.onrender.com/auth/telegram/callback">
+  </script>
+</div>
+
+<script>
+  // Проверяем, вернулся ли пользователь с токеном после логина
+  (function () {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get("token");
+    if (token) {
+      localStorage.setItem("acai_jwt", token);
+      document.querySelector(".hero-content").innerHTML = `
+        <h2>Успешный вход ✅</h2>
+        <p>Добро пожаловать в ACAI, ваш токен сохранён.</p>
+        <a href="https://acai-frontend.onrender.com" style="
+            display:inline-block;
+            padding:10px 18px;
+            margin-top:20px;
+            border:2px solid #d4af37;
+            color:#d4af37;
+            text-decoration:none;
+            border-radius:8px;
+            font-weight:bold;">Перейти в ACAI</a>
+      `;
+    }
+  })();
+</script>
         </div>
       </section>
 
