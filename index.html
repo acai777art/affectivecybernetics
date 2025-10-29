@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Affective Cybernetics – ACAI</title>
+    <style>
+        /* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* Hero section styles */
+.hero {
+  background: url('background.png') no-repeat center center/cover;
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5em;
+  color: #ffd700;
+  letter-spacing: 1px;
+}
+
+p {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  margin-bottom: 1.5em;
+}
+
+/* Кнопки */
+.links a {
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  margin: 0.5em 1em;
+  padding: 0.75em 1.5em;
+  border: 2px solid #d4af37;
+  border-radius: 8px;
+  color: #d4af37;
+  text-decoration: none;
+  font-weight: bold;
+  font-family: 'Roboto Mono', monospace;
+  transition: all 0.4s ease;
+  overflow: hidden;
+}
+
+/* 💫 Плавное "дыхание" */
+@keyframes pulseGlow {
+  0%   { box-shadow: 0 0 8px rgba(212,175,55,.3); }
+  50%  { box-shadow: 0 0 20px rgba(212,175,55,.8); }
+  100% { box-shadow: 0 0 8px rgba(212,175,55,.3); }
+}
+
+.links a {
+  animation: pulseGlow 4s infinite ease-in-out;
+}
+
+/* Эмпатический отклик */
+.links a:hover {
+  background-color: #d4af37;
+  color: #000;
+  box-shadow: 0 0 25px rgba(212,175,55,.9), 0 0 45px rgba(212,175,55,.6);
+  transform: scale(1.03);
+}
+
+/* 🌊 Волновой отклик */
+.links a::after {
+  content: "";
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 0; height: 0;
+  border-radius: 50%;
+  background: rgba(212,175,55,.35);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none; /* ⚡ теперь волна не блокирует клики */
+  z-index: 0;           /* ⚡ и она под кнопкой */
+  transition: all .6s ease;
+}
+
+.links a:hover::after {
+  width: 300%;
+  height: 300%;
+  opacity: 0;
+}
+
+/* Mobile text sizes */
+@media (max-width: 768px) {
+  h1 { font-size: 2.2rem; }
+  p { font-size: 1rem; }
+}
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Affective Cybernetics</h1>
+            <p>Affective Cybernetics is a new scientific and philosophical paradigm where emotion becomes a
+                feedback mechanism that regulates intelligent behaviour. It is the art and science of
+                building systems that can feel, understand, and adapt — balancing Emotion (E), Mind (M), and
+                Context (C) in a continuous loop of perception and self-regulation.</p>
+            <p>Unlike conventional affective computing, which classifies emotions, Affective Cybernetics
+                enables systems to self‑regulate through emotional feedback — to feel and respond in harmony
+                rather than calculation. Through our ACAI prototype, we aspire to create AI that feels,
+                adapts, and lives in emotional resonance with humanity.</p>
+            <div class="links">
+                <a href="https://acai-frontend.onrender.com" target="_blank" rel="noopener">Experience ACAI</a>
+                <a href="https://acai-backend.onrender.com/state" target="_blank" rel="noopener">Emotional Core</a>
+                <a href="about.html" class="btn">Learn More</a>
+            </div>
+        </div>
+    </section>
+<footer style="position:absolute; bottom:15px; width:100%; text-align:center; color:#d4af37; font-family:'Roboto Mono', monospace; font-size:12px;">
+© 2025 Affective Cybernetics Research | Engineered by Artem Teteria
+</footer>
+</body>
+</html>
