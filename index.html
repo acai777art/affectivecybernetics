@@ -9,21 +9,54 @@
     *{box-sizing:border-box;margin:0;padding:0}
     html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;color:#fff;overflow-x:hidden}
 
-    /* ===== Layout для липкого футера ===== */
+    /* ===== Layout ===== */
     .wrap{min-height:100svh;display:flex;flex-direction:column;background:#0b0d17}
     .container{flex:1;display:flex;flex-direction:column}
+
+    /* ===== Fullscreen Auth Screen ===== */
+    #auth-screen{
+      position:fixed; inset:0;
+      background:#0b0d17;
+      display:flex; align-items:center; justify-content:center;
+      flex-direction:column;
+      gap:18px;
+      z-index:9999;
+      opacity:1; visibility:visible;
+      transition:opacity .35s ease, visibility .35s ease;
+    }
+    #auth-screen.hidden{ opacity:0; visibility:hidden; }
+
+    .auth-title{
+      font-size:clamp(20px,4.8vw,28px);
+      color:#ffd700;
+      letter-spacing:.5px;
+      text-align:center;
+      margin-bottom:6px;
+    }
+    .auth-sub{
+      color:#e6d28a; opacity:.8;
+      font-size:clamp(13px,3.4vw,16px);
+      text-align:center;
+      margin-bottom:16px;
+      padding:0 16px;
+      max-width:640px;
+      line-height:1.6;
+    }
+    .auth-note{
+      color:#c8b46a; opacity:.75;
+      font-size:12.5px;
+      margin-top:10px;
+    }
 
     /* ===== Hero ===== */
     .hero{
       position:relative;
-      min-height:100svh;                    /* вместо height:100vh */
+      min-height:100svh;
       display:flex;align-items:center;justify-content:center;
       text-align:center;padding:64px 20px 48px;
       background:url('background.png') center/cover no-repeat;
     }
-    .hero::before{
-      content:"";position:absolute;inset:0;background:rgba(0,0,0,.6)
-    }
+    .hero::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,.6)}
     .hero-content{position:relative;z-index:1;max-width:900px}
 
     h1{font-size:clamp(28px,6vw,48px);margin-bottom:.5em;color:#ffd700;letter-spacing:1px}
@@ -46,7 +79,6 @@
       box-shadow:0 0 25px rgba(212,175,55,.9),0 0 45px rgba(212,175,55,.6);
       transform:scale(1.03)
     }
-    /* Волна под кнопкой — не мешает клику */
     .links a::after{
       content:"";position:absolute;left:50%;top:50%;width:0;height:0;border-radius:50%;
       background:rgba(212,175,55,.35);transform:translate(-50%,-50%);opacity:0;
@@ -54,13 +86,10 @@
     }
     .links a:hover::after{width:300%;height:300%;opacity:0}
 
-    /* Футер — прижат вниз */
+    /* Футер */
     footer{
-      margin-top:auto;                       /* прижимает к низу */
-      padding:12px 8px;
-      border-top:1px solid rgba(212,175,55,.25);
-      color:#e6d28a;text-align:center;
-      font-size:12px;letter-spacing:.2px;line-height:1.5;
+      margin-top:auto;padding:12px 8px;border-top:1px solid rgba(212,175,55,.25);
+      color:#e6d28a;text-align:center;font-size:12px;letter-spacing:.2px;line-height:1.5;
       background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.18))
     }
 
@@ -75,7 +104,28 @@
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <!-- FULLSCREEN AUTH OVERLAY -->
+  <div id="auth-screen">
+    <div class="auth-title">Вход через Telegram</div>
+    <div class="auth-sub">
+      Чтобы продолжить, пожалуйста авторизуйтесь через ваш Telegram-аккаунт.
+      Мы используем только публичные данные Telegram для создания безопасного сесс-токена (JWT).
+    </div>
+
+    <!-- Telegram Login Widget -->
+    <script async src="https://telegram.org/js/telegram-widget.js?22"
+      data-telegram-login="ACAI_Assistante_bot"
+      data-size="large"
+      data-userpic="false"
+      data-request-access="write"
+      data-auth-url="https://acai-backend.onrender.com/auth/telegram/callback">
+    </script>
+
+    <div class="auth-note">После входа вы автоматически перейдёте к сайту.</div>
+  </div>
+
+  <!-- SITE CONTENT (HIDDEN UNTIL AUTH) -->
+  <div id="site-content" class="wrap" style="display:none;">
     <div class="container">
       <section class="hero">
         <div class="hero-content">
@@ -94,50 +144,48 @@
           </p>
 
           <div class="links">
-              <a href="https://acai-frontend.onrender.com" target="_blank" rel="noopener">Experience ACAI</a>
+            <a href="https://acai-frontend.onrender.com" target="_blank" rel="noopener">Experience ACAI</a>
             <a href="https://acai-backend.onrender.com/state" target="_blank" rel="noopener">Emotional Core</a>
             <a href="about.html" class="btn">Learn More</a>
           </div>
-
-          <!-- Telegram Login Widget -->
-<div id="telegram-login" style="margin-top:2em;">
-  <script async src="https://telegram.org/js/telegram-widget.js?22"
-    data-telegram-login="ACAI_Assistante_bot"
-    data-size="large"
-    data-userpic="false"
-    data-request-access="write"
-    data-auth-url="https://acai-backend.onrender.com/auth/telegram/callback">
-  </script>
-</div>
-
-<script>
-  // Проверяем, вернулся ли пользователь с токеном после логина
-  (function () {
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get("token");
-    if (token) {
-      localStorage.setItem("acai_jwt", token);
-      document.querySelector(".hero-content").innerHTML = `
-        <h2>Успешный вход ✅</h2>
-        <p>Добро пожаловать в ACAI, ваш токен сохранён.</p>
-        <a href="https://acai-frontend.onrender.com" style="
-            display:inline-block;
-            padding:10px 18px;
-            margin-top:20px;
-            border:2px solid #d4af37;
-            color:#d4af37;
-            text-decoration:none;
-            border-radius:8px;
-            font-weight:bold;">Перейти в ACAI</a>
-      `;
-    }
-  })();
-</script>
         </div>
       </section>
 
       <footer>© 2025 Affective Cybernetics Research | Engineered by Artem Teteria</footer>
     </div>
   </div>
+
+  <script>
+    (function () {
+      const qs   = new URLSearchParams(location.search);
+      const jwt  = qs.get("token")  localStorage.getItem("acai_jwt")  "";
+
+      // если пришёл ?token=..., сохраняем и чистим URL
+      if (qs.get("token")) {
+        localStorage.setItem("acai_jwt", qs.get("token"));
+        history.replaceState({}, "", location.pathname + location.hash);
+      }
+
+      const authed = !!(jwt && jwt.length > 10);
+      const authEl = document.getElementById("auth-screen");
+      const siteEl = document.getElementById("site-content");
+
+      if (authed) {
+        siteEl.style.display = "block";
+        authEl.classList.add("hidden");
+        setTimeout(() => { authEl.style.display = "none"; }, 350);
+      } else {
+        siteEl.style.display = "none";
+        authEl.style.display = "flex";
+        authEl.classList.remove("hidden");
+      }
+
+      // (опционально) простая кнопка выхода — очищает токен
+      window.acaiLogout = function(){
+        localStorage.removeItem("acai_jwt");
+        location.reload();
+      };
+    })();
+  </script>
 </body>
 </html>
