@@ -157,12 +157,15 @@
 
   <script>
   (function () {
-    const qs  = new URLSearchParams(location.search);
-    const jwt = qs.get("token")  localStorage.getItem("acai_jwt")  "";
+    const qs = new URLSearchParams(location.search);
 
-    // если пришёл ?token=..., сохраняем и чистим URL
+    // читаем токен из URL или localStorage
+    let jwt = qs.get("token")  localStorage.getItem("acai_jwt")  "";
+
+    // если пришёл ?token=..., сохраняем и сразу обновляем переменную
     if (qs.get("token")) {
       localStorage.setItem("acai_jwt", qs.get("token"));
+      jwt = qs.get("token");                         // <-- ВАЖНО: обновить jwt
       history.replaceState({}, "", location.pathname + location.hash);
     }
 
@@ -180,7 +183,7 @@
       authEl.classList.remove("hidden");
     }
 
-    // (опционально) выход
+    // опционально: выход
     window.acaiLogout = function(){
       localStorage.removeItem("acai_jwt");
       location.reload();
