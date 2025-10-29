@@ -10,39 +10,32 @@
     *{box-sizing:border-box;margin:0;padding:0}
     html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;color:#fff;background:#0b0d17;overflow-x:hidden}
     a{color:#d4af37;text-decoration:none}
+
     .wrap{
       position:relative;
-      min-height:100dvh;
+      min-height:100svh;                 /* корректно для мобилок */
+      display:flex;                       /* для липкого футера */
+      flex-direction:column;
       background:
         linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.75)),
         url('background.png') center/cover no-repeat;
     }
-
-    /* 💫 Мягкое золотое свечение — живой фон */
-    .wrap::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(circle at center, rgba(212,175,55,0.18) 0%, transparent 70%);
-      animation: glowShift 6s infinite ease-in-out;
-      z-index: 0;
+    /* 💫 мягкое золотое свечение */
+    .wrap::after{
+      content:""; position:absolute; inset:0; z-index:0;
+      background:radial-gradient(circle at center, rgba(212,175,55,.18) 0%, transparent 70%);
+      animation:glowShift 6s infinite ease-in-out;
     }
-
-    @keyframes glowShift {
-      0% { opacity: 0.25; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(1.12); }
-      100% { opacity: 0.25; transform: scale(1); }
+    @keyframes glowShift{
+      0%{opacity:.25; transform:scale(1)}
+      50%{opacity:.6; transform:scale(1.12)}
+      100%{opacity:.25; transform:scale(1)}
     }
 
     .container{
-      position:relative;
-      z-index:1;
-      max-width:980px;
-      margin:0 auto;
-      padding:32px 20px;
+      position:relative; z-index:1;
+      max-width:980px; margin:0 auto; padding:32px 20px;
+      display:flex; flex-direction:column; flex:1;  /* тянем контент */
     }
 
     /* Header */
@@ -55,12 +48,13 @@
     h1{font-size:clamp(26px,5vw,42px);color:#ffd700;margin:12px 0 10px;text-align:center}
     .lead{font-size:clamp(15px,2.4vw,18px);line-height:1.7;color:#ddd;max-width:860px;margin:0 auto;text-align:center}
 
-    /* Section */
+    /* Sections */
+    main{flex:1}                          /* ключ для липкого футера */
     section{margin-top:40px}
     h2{color:#d4af37;font-size:clamp(18px,2.6vw,22px);margin-bottom:10px;font-family:'Roboto Mono',monospace;letter-spacing:.3px;text-align:center}
     p{font-size:clamp(15px,2.3vw,18px);line-height:1.75;color:#cfcfcf;margin:10px 0;text-align:center}
 
-    /* Code box for equations */
+    /* Code box */
     .code{
       background:rgba(255,255,255,.06);
       border:1px solid rgba(255,215,0,.25);
@@ -72,37 +66,28 @@
       margin:20px auto;
       max-width:360px;
       box-shadow:0 0 18px rgba(212,175,55,.15) inset;
+      animation:breathe 5s ease-in-out infinite;
     }
     @keyframes breathe{0%{box-shadow:0 0 16px rgba(212,175,55,.12) inset}50%{box-shadow:0 0 28px rgba(212,175,55,.28) inset}100%{box-shadow:0 0 16px rgba(212,175,55,.12) inset}}
-    .code{animation:breathe 5s ease-in-out infinite}
 
-    /* Footer */
-    footer{margin:40px 0 10px;text-align:center;color:#d4af37;font-size:12px;font-family:'Roboto Mono',monospace}
+    /* Footer (отделяем от текста и прижимаем вниз) */
+    .container > footer{
+      margin-top:auto;                   /* прижимает к низу */
+      padding-top:12px;
+      border-top:1px solid rgba(212,175,55,.25);
+      color:#e6d28a; text-align:center;
+      font-size:12px; letter-spacing:.2px; line-height:1.5;
+      background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.18));
+    }
 
-    /* ── Футер: чёткое отделение от текста + безопасный отступ снизу ── */
-.container > footer{
-  margin-top: 28px;
-  padding-top: 12px;
-  border-top: 1px solid rgba(212,175,55,.25); /* тонкая золотая линия-разделитель */
-  color:#e6d28a;
-  text-align:center;
-  font-size:12px;
-  letter-spacing:.2px;
-  line-height:1.5;
-}
-
-/* мобильная версия (iOS/Safari safe area) */
-@media (max-width: 600px){
-  .container{
-    padding-bottom: calc(24px + env(safe-area-inset-bottom));
-  }
-  .container > footer{
-    margin-top: 24px;
-    padding-top: 14px;
-    padding-bottom: calc(20px + env(safe-area-inset-bottom));
-    font-size:11.5px;
-  }
-}
+    /* Mobile safe area */
+    @media (max-width:600px){
+      .container{padding-bottom:calc(20px + env(safe-area-inset-bottom))}
+      .container > footer{
+        font-size:11.5px;
+        padding-bottom:calc(18px + env(safe-area-inset-bottom));
+      }
+    }
   </style>
 </head>
 <body>
@@ -113,44 +98,41 @@
         <a class="back" href="index.html">← Back to Home</a>
       </div>
 
-      <h1>About ACAI Prototype</h1>
-      <p class="lead">
-        The <strong>ACAI (Affective Contextual AI)</strong> prototype implements the principles of
-        <em>Affective Cybernetics</em> — an emotional feedback architecture where <strong>emotion regulates intelligent behaviour</strong>.
-        ACAI maintains a dynamic balance between <strong>Emotion (E)</strong>, <strong>Mind (M)</strong>, and <strong>Context (C)</strong> —
-        forming a self-regulating emotional control system.
-      </p>
+      <main>
+        <h1>About ACAI Prototype</h1>
+        <p class="lead">
+          The <strong>ACAI (Affective Contextual AI)</strong> prototype implements the principles of
+          <em>Affective Cybernetics</em> — an emotional feedback architecture where <strong>emotion regulates intelligent behaviour</strong>.
+          ACAI maintains a dynamic balance between <strong>Emotion (E)</strong>, <strong>Mind (M)</strong>, and <strong>Context (C)</strong> —
+          forming a self-regulating emotional control system.
+        </p>
 
-      <section id="emc">
-        <main>
-  <section id="emc">
-    <h2>E–M–C Control Dynamics</h2>
-    <div class="code">
-      dE/dt – Emotion Dynamics<br/>
-      dM/dt – Cognitive Orientation<br/>
-      dC/dt – Context Awareness
-    </div>
-    <p>
-      These interdependent variables form the <strong>E–M–C loop</strong> — 
-      a living control architecture allowing ACAI to update its internal state through perception,
-      maintain emotional equilibrium, and respond to the human signal (<em>u</em>) 
-      with empathy and contextual understanding.
-    </p>
-  </section>
+        <section id="emc">
+          <h2>E–M–C Control Dynamics</h2>
+          <div class="code">
+            dE/dt – Emotion Dynamics<br/>
+            dM/dt – Cognitive Orientation<br/>
+            dC/dt – Context Awareness
+          </div>
+          <p>
+            These interdependent variables form the <strong>E–M–C loop</strong> —
+            a living control architecture allowing ACAI to update its internal state through perception,
+            maintain emotional equilibrium, and respond to the human signal (<em>u</em>)
+            with empathy and contextual understanding.
+          </p>
+        </section>
 
-  <section>
-    <h2>Vision</h2>
-    <p>
-      Beyond data and automation, <strong>Affective Cybernetics</strong> 
-      seeks to create machines that <em>feel, reflect, and adapt</em> — 
-      promoting harmony between human emotion and artificial cognition.
-    </p>
-  </section>
-</main>
+        <section>
+          <h2>Vision</h2>
+          <p>
+            Beyond data and automation, <strong>Affective Cybernetics</strong>
+            seeks to create machines that <em>feel, reflect, and adapt</em> —
+            promoting harmony between human emotion and artificial cognition.
+          </p>
+        </section>
+      </main>
 
-<footer>
-  © 2025 Affective Cybernetics Research | Engineered by Artem Teteria
-</footer>
+      <footer>© 2025 Affective Cybernetics Research | Engineered by Artem Teteria</footer>
     </div>
   </div>
 </body>
