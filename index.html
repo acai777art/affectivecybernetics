@@ -156,36 +156,36 @@
   </div>
 
   <script>
-    (function () {
-      const qs   = new URLSearchParams(location.search);
-      const jwt  = qs.get("token")  localStorage.getItem("acai_jwt")  "";
+  (function () {
+    const qs  = new URLSearchParams(location.search);
+    const jwt = qs.get("token")  localStorage.getItem("acai_jwt")  "";
 
-      // если пришёл ?token=..., сохраняем и чистим URL
-      if (qs.get("token")) {
-        localStorage.setItem("acai_jwt", qs.get("token"));
-        history.replaceState({}, "", location.pathname + location.hash);
-      }
+    // если пришёл ?token=..., сохраняем и чистим URL
+    if (qs.get("token")) {
+      localStorage.setItem("acai_jwt", qs.get("token"));
+      history.replaceState({}, "", location.pathname + location.hash);
+    }
 
-      const authed = !!(jwt && jwt.length > 10);
-      const authEl = document.getElementById("auth-screen");
-      const siteEl = document.getElementById("site-content");
+    const authed = !!(jwt && jwt.length > 10);
+    const authEl = document.getElementById("auth-screen");
+    const siteEl = document.getElementById("site-content");
 
-      if (authed) {
-        siteEl.style.display = "block";
-        authEl.classList.add("hidden");
-        setTimeout(() => { authEl.style.display = "none"; }, 350);
-      } else {
-        siteEl.style.display = "none";
-        authEl.style.display = "flex";
-        authEl.classList.remove("hidden");
-      }
+    if (authed) {
+      siteEl.style.display = "block";
+      authEl.classList.add("hidden");
+      setTimeout(() => { authEl.style.display = "none"; }, 350);
+    } else {
+      siteEl.style.display = "none";
+      authEl.style.display = "flex";
+      authEl.classList.remove("hidden");
+    }
 
-      // (опционально) простая кнопка выхода — очищает токен
-      window.acaiLogout = function(){
-        localStorage.removeItem("acai_jwt");
-        location.reload();
-      };
-    })();
-  </script>
+    // (опционально) выход
+    window.acaiLogout = function(){
+      localStorage.removeItem("acai_jwt");
+      location.reload();
+    };
+  })();
+</script>
 </body>
 </html>
