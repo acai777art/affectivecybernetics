@@ -120,6 +120,31 @@ p {
   h1 { font-size: 2.2rem; }
   p { font-size: 1rem; }
 }
+
+/* 📱 Мобильная правка для iOS/смартфонов */
+@media (max-width: 600px) {
+  /* больше воздуха снизу, чтобы кнопки не утыкались в нижнюю панель Safari */
+  .hero {
+    min-height: auto;
+    padding: 56px 16px calc(140px + env(safe-area-inset-bottom));
+  }
+
+  /* кнопки по одной колонкой и шире */
+  .links a {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    margin: 10px auto;
+  }
+
+  /* футер не фиксируем — убираем перекрытие */
+  footer {
+    position: static !important;
+    margin-top: 16px;
+    padding-bottom: calc(16px + env(safe-area-inset-bottom));
+    text-align: center;
+  }
+}
     </style>
 </head>
 <body>
