@@ -118,7 +118,6 @@
   min-height:100vh;
   justify-content:space-between;
 ">
-
   <div id="auth-screen" style="
     text-align:center;
     padding:60px 16px;
@@ -129,53 +128,91 @@
     margin: 10% auto;
     box-shadow: 0 0 25px rgba(0,0,0,0.4);
   ">
-    <div class="auth-title" style="
-      font-size:28px;
-      font-weight:600;
-      color:#ffd700;
-      margin-bottom:12px;">
+    <div class="auth-title" style="font-size:28px;font-weight:600;color:#ffd700;margin-bottom:12px;">
       Sign in with Telegram
     </div>
 
-    <div class="auth-sub" style="
-      color:#ddd;
-      max-width:420px;
-      margin:0 auto 24px;
-      line-height:1.6;">
+    <div class="auth-sub" style="color:#ddd;max-width:420px;margin:0 auto 24px;line-height:1.6;">
       Please sign in using your Telegram account.<br>
       We only use your <strong>public Telegram data</strong> to create a secure session token (JWT).
     </div>
 
-    <!-- Telegram Login Widget -->
-    <script async src="https://telegram.org/js/telegram-widget.js?22"
-      data-telegram-login="ACAI_Assistante_bot"
-      data-size="large"
-      data-userpic="false"
-      data-request-access="write"
-      data-auth-url="https://acai-backend.onrender.com/auth/telegram/callback">
-    </script>
+    <!-- ✅ Политика + галочка -->
+    <div class="policy-row" style="display:flex;gap:10px;align-items:flex-start;justify-content:center;margin:0 0 16px;">
+      <input type="checkbox" id="policyCheck" style="width:18px;height:18px;cursor:pointer;">
+      <label for="policyCheck" style="color:#eee;cursor:pointer;text-align:left;max-width:380px;line-height:1.4;">
+        Я прочитал(а) и принимаю
+        <a href="privacy.html" target="_blank" rel="noopener" style="color:#ffd700;text-decoration:underline;">
+          Политику конфиденциальности
+        </a>
+      </label>
+    </div>
 
-    <div class="auth-note" style="
-      margin-top:24px;
-      color:#ccc;
-      font-size:14px;">
+    <!-- 🧩 Контейнер для Telegram-виджета (появится после галочки) -->
+    <div id="tgWidgetContainer" style="min-height:48px;">
+      <button id="stubBtn" disabled
+        style="opacity:.5;cursor:not-allowed;border:1px solid #888;background:transparent;color:#bbb;
+               padding:12px 20px;border-radius:8px;font-weight:600;">
+        Войти через Telegram (доступно после галочки)
+      </button>
+    </div>
+
+    <div class="auth-note" style="margin-top:24px;color:#ccc;font-size:14px;">
       After signing in, you will be redirected to the site automatically.
-      <br><br>
-      <a href="privacy.html" target="_blank"
-         style="display:inline-block;
-                padding:8px 18px;
-                border:1px solid #ffd700;
-                border-radius:8px;
-                color:#ffd700;
-                text-decoration:none;
-                font-weight:500;
-                letter-spacing:0.3px;
-                background:rgba(255,215,0,0.1);
-                transition:all 0.25s ease;">
-        📜 Privacy Policy
-      </a>
     </div>
   </div>
+
+  <script>
+    (function () {
+      const WIDGET_SRC = "https://telegram.org/js/telegram-widget.js?22";
+      const BOT = "ACAI_Assistante_bot";
+      const AUTH_URL = "https://acai-backend.onrender.com/auth/telegram/callback";
+
+      const check = document.getElementById("policyCheck");
+      const container = document.getElementById("tgWidgetContainer");
+
+      // Если ранее уже приняли политику — активируем сразу
+      const saved = localStorage.getItem("acai_policy_accepted") === "1";
+      if (saved) {
+        check.checked = true;
+        loadTelegramWidget();
+      }
+
+      check.addEventListener("change", () => {
+        const accepted = check.checked;
+        localStorage.setItem("acai_policy_accepted", accepted ? "1" : "0");
+        if (accepted) loadTelegramWidget();
+        else unloadTelegramWidget();
+      });
+
+      function loadTelegramWidget() {
+        // очищаем контейнер от заглушки
+        container.innerHTML = "";
+
+        // создаём <script async ...> с атрибутами виджета
+        const s = document.createElement("script");
+        s.async = true;
+        s.src = WIDGET_SRC;
+        s.setAttribute("data-telegram-login", BOT);
+        s.setAttribute("data-size", "large");
+        s.setAttribute("data-userpic", "false");
+        s.setAttribute("data-request-access", "write");
+        s.setAttribute("data-auth-url", AUTH_URL);
+
+        container.appendChild(s);
+      }
+
+      function unloadTelegramWidget() {
+        // удаляем виджет, возвращаем заглушку
+        container.innerHTML = `
+          <button id="stubBtn" disabled
+            style="opacity:.5;cursor:not-allowed;border:1px solid #888;background:transparent;color:#bbb;
+                   padding:12px 20px;border-radius:8px;font-weight:600;">
+            Войти через Telegram (доступно после галочки)
+          </button>`;
+      }
+    })();
+  </script>
 </body>
   <!-- SITE CONTENT (HIDDEN UNTIL AUTH) -->
   <div id="site-content" class="wrap" style="display:none;">
