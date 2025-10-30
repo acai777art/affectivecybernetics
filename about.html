@@ -1,6 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- 🔐 HARD GUARD: пускаем только с токеном -->
+<script>
+(function () {
+  const qs = new URLSearchParams(location.search);
+  let token = qs.get("token")  localStorage.getItem("acai_jwt")  "";
+
+  // если токен пришёл через URL — сохраняем и чистим адрес
+  if (qs.get("token")) {
+    localStorage.setItem("acai_jwt", token);
+    history.replaceState({}, "", location.pathname + location.hash);
+  }
+
+  // нет токена — отправляем на страницу логина/регистрации
+  if (!token || token.length < 10) {
+    location.replace("https://affectivecybernetics.onrender.com"); // <- твоя страница входа
+  }
+})();
+</script>
+<noscript>
+  <meta http-equiv="refresh" content="0; url=https://affectivecybernetics.onrender.com">
+</noscript>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About – Affective Cybernetics (ACAI)</title>
