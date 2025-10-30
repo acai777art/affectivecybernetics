@@ -160,7 +160,7 @@
     const qs = new URLSearchParams(location.search);
 
     // читаем токен из URL или localStorage
-    let jwt = qs.get("token")  localStorage.getItem("acai_jwt")  "";
+    let jwt = qs.get("token") || localStorage.getItem("acai_jwt") || "";
 
     // если пришёл ?token=..., сохраняем и сразу обновляем переменную
     if (qs.get("token")) {
