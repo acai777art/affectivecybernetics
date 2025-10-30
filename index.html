@@ -144,9 +144,9 @@
           </p>
 
           <div class="links">
-            <a href="https://acai-frontend.onrender.com" target="_blank" rel="noopener">Experience ACAI</a>
-            <a href="https://acai-backend.onrender.com/state" target="_blank" rel="noopener">Emotional Core</a>
-            <a href="about.html" class="btn">Learn More</a>
+            <a href="https://acai-frontend.onrender.com" class="protected" target="_blank" rel="noopener noreferrer">Experience ACAI</a>
+            <a href="https://acai-backend.onrender.com/state" class="protected" target="_blank" rel="noopener noreferrer">Emotional Core</a>
+            <a href="about.html" class="btn">Learn More</a> <!-- эту оставляем открытой -->
           </div>
         </div>
       </section>
@@ -160,12 +160,12 @@
     const qs = new URLSearchParams(location.search);
 
     // читаем токен из URL или localStorage
-    let jwt = qs.get("token") || localStorage.getItem("acai_jwt") || "";
+    let jwt = qs.get("token")  localStorage.getItem("acai_jwt")  "";
 
     // если пришёл ?token=..., сохраняем и сразу обновляем переменную
     if (qs.get("token")) {
       localStorage.setItem("acai_jwt", qs.get("token"));
-      jwt = qs.get("token");                         // <-- ВАЖНО: обновить jwt
+      jwt = qs.get("token"); // <-- обновляем jwt
       history.replaceState({}, "", location.pathname + location.hash);
     }
 
@@ -182,6 +182,21 @@
       authEl.style.display = "flex";
       authEl.classList.remove("hidden");
     }
+
+    // 🔐 ДОБАВЛЕНИЕ: автоподстановка токена в защищённые ссылки
+    document.querySelectorAll("a.protected").forEach(a => {
+      if (jwt && jwt.length > 10) {
+        const url = new URL(a.href);
+        url.searchParams.set("token", jwt);
+        a.href = url.toString();
+      } else {
+        // если токена нет — редиректим на главную
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          window.location.href = "https://affectivecybernetics.onrender.com";
+        });
+      }
+    });
 
     // опционально: выход
     window.acaiLogout = function(){
