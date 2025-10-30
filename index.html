@@ -104,26 +104,44 @@
   </style>
 </head>
 <body>
-  <!-- FULLSCREEN AUTH OVERLAY -->
-  <div id="auth-screen">
-    <div class="auth-title">Вход через Telegram</div>
-    <div class="auth-sub">
-      Чтобы продолжить, пожалуйста авторизуйтесь через ваш Telegram-аккаунт.
-      Мы используем только публичные данные Telegram для создания безопасного сесс-токена (JWT).
-    </div>
-
-    <!-- Telegram Login Widget -->
-    <script async src="https://telegram.org/js/telegram-widget.js?22"
-      data-telegram-login="ACAI_Assistante_bot"
-      data-size="large"
-      data-userpic="false"
-      data-request-access="write"
-      data-auth-url="https://acai-backend.onrender.com/auth/telegram/callback">
-    </script>
-
-    <div class="auth-note">После входа вы автоматически перейдёте к сайту.</div>
+  <!-- 🔐 FULLSCREEN AUTH OVERLAY -->
+<div id="auth-screen" style="text-align:center; padding:40px 16px;">
+  <div class="auth-title" style="font-size:24px; font-weight:600; margin-bottom:10px;">
+    Sign in with Telegram
   </div>
 
+  <div class="auth-sub" style="color:#bbb; max-width:480px; margin:0 auto 20px; line-height:1.5;">
+    Please sign in using your Telegram account.<br>
+    We only use your <strong>public Telegram data</strong> to create a secure session token (JWT).
+  </div>
+
+  <!-- Telegram Login Widget -->
+  <script async src="https://telegram.org/js/telegram-widget.js?22"
+    data-telegram-login="ACAI_Assistante_bot"
+    data-size="large"
+    data-userpic="false"
+    data-request-access="write"
+    data-auth-url="https://acai-backend.onrender.com/auth/telegram/callback">
+  </script>
+
+  <div class="auth-note" style="margin-top:20px; color:#aaa; font-size:14px;">
+    After signing in, you will be redirected to the site automatically.
+    <br><br>
+    <a href="privacy.html" target="_blank"
+       style="display:inline-block;
+              padding:7px 16px;
+              border:1px solid #ffd700;
+              border-radius:6px;
+              color:#ffd700;
+              text-decoration:none;
+              font-weight:500;
+              letter-spacing:0.3px;
+              background:rgba(255,215,0,0.06);
+              transition:all 0.2s ease;">
+      📜 Privacy Policy
+    </a>
+  </div>
+</div>
   <!-- SITE CONTENT (HIDDEN UNTIL AUTH) -->
   <div id="site-content" class="wrap" style="display:none;">
     <div class="container">
