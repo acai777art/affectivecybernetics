@@ -1,299 +1,450 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Affective Cybernetics – ACAI</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Aethel Axis — Affective Cybernetics Initiative</title>
+  <meta name="description" content="Aethel Axis is an independent research & engineering initiative focused on Affective Cybernetics, human-centered control, and applied intelligent systems." />
+  <meta name="theme-color" content="#070A10" />
+
   <style>
-    /* Reset */
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;color:#fff;overflow-x:hidden}
-
-    /* ===== Layout ===== */
-    .wrap{min-height:100svh;display:flex;flex-direction:column;background:#0b0d17}
-    .container{flex:1;display:flex;flex-direction:column}
-
-    /* ===== Fullscreen Auth Screen ===== */
-    #auth-screen{
-      position:fixed; inset:0;
-      background:#0b0d17;
-      display:flex; align-items:center; justify-content:center;
-      flex-direction:column;
-      gap:18px;
-      z-index:9999;
-      opacity:1; visibility:visible;
-      transition:opacity .35s ease, visibility .35s ease;
-    }
-    #auth-screen.hidden{ opacity:0; visibility:hidden; }
-
-    .auth-title{
-      font-size:clamp(20px,4.8vw,28px);
-      color:#ffd700;
-      letter-spacing:.5px;
-      text-align:center;
-      margin-bottom:6px;
-    }
-    .auth-sub{
-      color:#e6d28a; opacity:.8;
-      font-size:clamp(13px,3.4vw,16px);
-      text-align:center;
-      margin-bottom:16px;
-      padding:0 16px;
-      max-width:640px;
-      line-height:1.6;
-    }
-    .auth-note{
-      color:#c8b46a; opacity:.75;
-      font-size:12.5px;
-      margin-top:10px;
+    :root{
+      --bg:#070A10;
+      --bg2:#0B1020;
+      --card:rgba(255,255,255,.06);
+      --stroke:rgba(255,255,255,.10);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.66);
+      --soft:rgba(255,255,255,.42);
+      --accent:#38F2C2;      /* как стрелка в лого */
+      --accent2:#F2C94C;     /* золотой штрих */
+      --shadow: 0 18px 60px rgba(0,0,0,.55);
+      --radius: 18px;
+      --max: 1120px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial;
     }
 
-    /* ===== Hero ===== */
-    .hero{
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--font);
+      color:var(--text);
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(56,242,194,.15), transparent 55%),
+                  radial-gradient(900px 700px at 80% 25%, rgba(242,201,76,.10), transparent 60%),
+                  linear-gradient(180deg, var(--bg), var(--bg2));
+      overflow-x:hidden;
+    }
+
+    /* subtle star grid */
+    .bg-grid:before{
+      content:"";
+      position:fixed; inset:-2px;
+      background:
+        radial-gradient(circle at 10% 30%, rgba(255,255,255,.09) 0 1px, transparent 2px),
+        radial-gradient(circle at 70% 20%, rgba(255,255,255,.06) 0 1px, transparent 2px),
+        radial-gradient(circle at 40% 70%, rgba(255,255,255,.05) 0 1px, transparent 2px),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.04), rgba(255,255,255,.04) 1px, transparent 1px, transparent 48px),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.03), rgba(255,255,255,.03) 1px, transparent 1px, transparent 56px);
+      mask-image: radial-gradient(1200px 700px at 50% 0%, #000 40%, transparent 72%);
+      pointer-events:none;
+      opacity:.55;
+    }
+
+    a{color:inherit}
+    .wrap{max-width:var(--max); margin:0 auto; padding:28px 22px 70px}
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:14px; padding:14px 0 10px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px; text-decoration:none;
+      letter-spacing:.4px;
+    }
+    .mark{
+      width:34px; height:34px; border-radius:12px;
+      background: linear-gradient(135deg, rgba(56,242,194,.18), rgba(242,201,76,.12));
+      border:1px solid var(--stroke);
+      box-shadow: 0 8px 30px rgba(0,0,0,.35);
       position:relative;
-      min-height:100svh;
-      display:flex;align-items:center;justify-content:center;
-      text-align:center;padding:64px 20px 48px;
-      background:url('background.png') center/cover no-repeat;
+      overflow:hidden;
     }
-    .hero::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,.6)}
-    .hero-content{position:relative;z-index:1;max-width:900px}
+    .mark:after{
+      content:"";
+      position:absolute; inset:-20%;
+      background: radial-gradient(circle at 30% 30%, rgba(56,242,194,.35), transparent 55%),
+                  radial-gradient(circle at 70% 60%, rgba(242,201,76,.22), transparent 60%);
+      filter: blur(6px);
+      animation: drift 8s ease-in-out infinite;
+    }
+    @keyframes drift{
+      0%,100%{transform:translate3d(0,0,0) scale(1)}
+      50%{transform:translate3d(8px,-6px,0) scale(1.03)}
+    }
+    .brand h1{font-size:14px; margin:0; font-weight:650}
+    .brand p{margin:0; font-size:12px; color:var(--muted)}
 
-    h1{font-size:clamp(28px,6vw,48px);margin-bottom:.5em;color:#ffd700;letter-spacing:1px}
-    p{font-size:clamp(15px,2.6vw,20px);line-height:1.7;margin-bottom:1.5em}
+    .nav{
+      display:flex; gap:16px; align-items:center; flex-wrap:wrap;
+      font-size:13px; color:var(--muted);
+    }
+    .nav a{
+      text-decoration:none; padding:8px 10px; border-radius:12px;
+      border:1px solid transparent;
+    }
+    .nav a:hover{border-color:var(--stroke); background:rgba(255,255,255,.04); color:var(--text)}
 
-    /* Кнопки */
-    .links a{
-      display:inline-block;position:relative;z-index:1;cursor:pointer;
-      margin:.5em 1em;padding:.75em 1.5em;border:2px solid #d4af37;border-radius:8px;
-      color:#d4af37;text-decoration:none;font-weight:700;font-family:'Roboto Mono',monospace;
-      transition:all .4s ease;overflow:hidden;animation:pulseGlow 4s infinite ease-in-out
+    .cta{
+      display:flex; gap:10px; align-items:center;
     }
-    @keyframes pulseGlow{
-      0%{box-shadow:0 0 8px rgba(212,175,55,.3)}
-      50%{box-shadow:0 0 20px rgba(212,175,55,.8)}
-      100%{box-shadow:0 0 8px rgba(212,175,55,.3)}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding:11px 14px;
+      border-radius:14px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      text-decoration:none;
+      font-size:13px;
+      box-shadow: 0 10px 40px rgba(0,0,0,.25);
+      transition: transform .15s ease, background .15s ease, border-color .15s ease;
+      user-select:none;
     }
-    .links a:hover{
-      background:#d4af37;color:#000;
-      box-shadow:0 0 25px rgba(212,175,55,.9),0 0 45px rgba(212,175,55,.6);
-      transform:scale(1.03)
+    .btn:hover{transform: translateY(-1px); background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.16)}
+    .btn.primary{
+      border-color: rgba(56,242,194,.38);
+      background: linear-gradient(135deg, rgba(56,242,194,.16), rgba(242,201,76,.08));
     }
-    .links a::after{
-      content:"";position:absolute;left:50%;top:50%;width:0;height:0;border-radius:50%;
-      background:rgba(212,175,55,.35);transform:translate(-50%,-50%);opacity:0;
-      pointer-events:none;z-index:0;transition:all .6s ease
+    .pill{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,.18);
+      color:var(--muted);
+      font-size:12px;
     }
-    .links a:hover::after{width:300%;height:300%;opacity:0}
+    .dot{
+      width:8px; height:8px; border-radius:999px;
+      background: var(--accent);
+      box-shadow: 0 0 18px rgba(56,242,194,.55);
+    }
 
-    /* Футер */
+    /* hero */
+    .hero{
+      margin-top:34px;
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:22px;
+      align-items:stretch;
+    }
+    @media (max-width: 920px){
+      .hero{grid-template-columns:1fr}
+    }
+    .panel{
+      border-radius:var(--radius);
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.035);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .panel:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(700px 420px at 25% 15%, rgba(56,242,194,.12), transparent 60%),
+                  radial-gradient(600px 420px at 85% 55%, rgba(242,201,76,.10), transparent 65%);
+      pointer-events:none;
+      opacity:.9;
+    }
+    .hero-left{padding:28px 26px 24px}
+    .kicker{display:flex; align-items:center; gap:10px; margin-bottom:14px}
+    .kicker strong{color:var(--text); font-weight:650}
+    .title{
+      font-size:44px;
+      line-height:1.05;
+      margin:0 0 14px;
+      letter-spacing:-.7px;
+    }
+    @media (max-width: 520px){
+      .title{font-size:36px}
+    }
+    .subtitle{
+      margin:0 0 20px;
+      color:var(--muted);
+      font-size:15.5px;
+      line-height:1.55;
+      max-width: 58ch;
+    }
+    .hero-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:6px}
+    .meta{
+      display:flex; gap:12px; flex-wrap:wrap;
+      margin-top:18px;
+    }
+
+    /* right card */
+    .hero-right{padding:22px}
+    .card{
+      padding:18px;
+      border-radius:16px;
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,.18);
+    }
+    .card h3{margin:0 0 6px; font-size:14px; letter-spacing:.2px}
+    .card p{margin:0; color:var(--muted); font-size:13px; line-height:1.55}
+    .list{
+      margin:14px 0 0; padding:0; list-style:none;
+      display:grid; gap:10px;
+    }
+    .li{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:10px 12px;
+      border-radius:14px;
+      background: rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .li b{display:block; font-size:13px}
+    .li span{display:block; margin-top:2px; color:var(--muted); font-size:12.5px; line-height:1.45}
+    .ic{
+      width:10px; height:10px; border-radius:999px;
+      margin-top:4px;
+      background: linear-gradient(180deg, var(--accent), rgba(56,242,194,.2));
+      box-shadow: 0 0 18px rgba(56,242,194,.35);
+      flex:0 0 auto;
+    }
+
+    /* sections */
+    section{margin-top:18px}
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+    }
+    @media (max-width: 920px){ .grid{grid-template-columns:1fr} }
+    .tile{
+      padding:18px;
+      border-radius:16px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.03);
+      box-shadow: 0 10px 40px rgba(0,0,0,.18);
+    }
+    .tile h4{margin:0 0 6px; font-size:13.5px; letter-spacing:.2px}
+    .tile p{margin:0; color:var(--muted); font-size:13px; line-height:1.55}
+    .section-title{
+      margin:24px 0 12px;
+      display:flex; align-items:flex-end; justify-content:space-between; gap:12px;
+    }
+    .section-title h2{
+      margin:0;
+      font-size:15px;
+      letter-spacing:.6px;
+      color:rgba(255,255,255,.86);
+      text-transform:uppercase;
+    }
+    .section-title .hint{margin:0; color:var(--soft); font-size:12.5px}
+
+    /* footer */
     footer{
-      margin-top:auto;padding:12px 8px;border-top:1px solid rgba(212,175,55,.25);
-      color:#e6d28a;text-align:center;font-size:12px;letter-spacing:.2px;line-height:1.5;
-      background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.18))
+      margin-top:34px;
+      padding-top:18px;
+      border-top:1px solid rgba(255,255,255,.10);
+      color:var(--muted);
+      font-size:12.5px;
+      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
     }
-
-    /* Мобильные правки */
-    @media (max-width: 768px){
-      .links a{display:block;width:100%;max-width:320px;margin:10px auto}
-    }
-    @media (max-width:600px){
-      .hero{padding:56px 16px calc(140px + env(safe-area-inset-bottom))}
-      footer{padding-bottom:calc(18px + env(safe-area-inset-bottom));font-size:11.5px}
-    }
+    .legal a{color:var(--muted); text-decoration:none}
+    .legal a:hover{color:var(--text)}
   </style>
 </head>
-<body>
-  <!-- 🔐 FULLSCREEN AUTH OVERLAY -->
-<body style="
-  margin:0;
-  padding:0;
-  background: url('background_future.jpg') no-repeat center center fixed;
-  background-size: cover;
-  font-family: 'Inter', sans-serif;
-  color: #fff;
-  text-align:center;
-  display:flex;
-  flex-direction:column;
-  min-height:100vh;
-  justify-content:space-between;
-">
-  <div id="auth-screen" style="
-    text-align:center;
-    padding:60px 16px;
-    background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(6px);
-    border-radius: 12px;
-    max-width: 500px;
-    margin: 10% auto;
-    box-shadow: 0 0 25px rgba(0,0,0,0.4);
-  ">
-    <div class="auth-title" style="font-size:28px;font-weight:600;color:#ffd700;margin-bottom:12px;">
-      Sign in with Telegram
-    </div>
 
-    <div class="auth-sub" style="color:#ddd;max-width:420px;margin:0 auto 24px;line-height:1.6;">
-      Please sign in using your Telegram account.<br>
-      We only use your <strong>public Telegram data</strong> to create a secure session token (JWT).
-    </div>
-
-    <!-- ✅ Политика + галочка -->
-    <div class="policy-row" style="display:flex;gap:10px;align-items:flex-start;justify-content:center;margin:0 0 16px;">
-      <input type="checkbox" id="policyCheck" style="width:18px;height:18px;cursor:pointer;">
-      <label for="policyCheck" style="color:#eee;cursor:pointer;text-align:left;max-width:380px;line-height:1.4;">
-        I have read and accept the
-        <a href="privacy.html" target="_blank" rel="noopener" style="color:#ffd700;text-decoration:underline;">
-          Privacy Policy
-        </a>
-      </label>
-    </div>
-
-    <!-- 🧩 Контейнер для Telegram-виджета (появится после галочки) -->
-    <div id="tgWidgetContainer" style="min-height:48px;">
-      <button id="stubBtn" disabled
-        style="opacity:.5;cursor:not-allowed;border:1px solid #888;background:transparent;color:#bbb;
-               padding:12px 20px;border-radius:8px;font-weight:600;">
-        Sign in via Telegram (available after checkbox)
-      </button>
-    </div>
-
-    <div class="auth-note" style="margin-top:24px;color:#ccc;font-size:14px;">
-      After signing in, you will be redirected to the site automatically.
-    </div>
-  </div>
-
-  <script>
-    (function () {
-      const WIDGET_SRC = "https://telegram.org/js/telegram-widget.js?22";
-      const BOT = "ACAI_Assistante_bot";
-      const AUTH_URL = "https://acai-backend.onrender.com/auth/telegram/callback";
-
-      const check = document.getElementById("policyCheck");
-      const container = document.getElementById("tgWidgetContainer");
-
-      // Если ранее уже приняли политику — активируем сразу
-      const saved = localStorage.getItem("acai_policy_accepted") === "1";
-      if (saved) {
-        check.checked = true;
-        loadTelegramWidget();
-      }
-
-      check.addEventListener("change", () => {
-        const accepted = check.checked;
-        localStorage.setItem("acai_policy_accepted", accepted ? "1" : "0");
-        if (accepted) loadTelegramWidget();
-        else unloadTelegramWidget();
-      });
-
-      function loadTelegramWidget() {
-        // очищаем контейнер от заглушки
-        container.innerHTML = "";
-
-        // создаём <script async ...> с атрибутами виджета
-        const s = document.createElement("script");
-        s.async = true;
-        s.src = WIDGET_SRC;
-        s.setAttribute("data-telegram-login", BOT);
-        s.setAttribute("data-size", "large");
-        s.setAttribute("data-userpic", "false");
-        s.setAttribute("data-request-access", "write");
-        s.setAttribute("data-auth-url", AUTH_URL);
-
-        container.appendChild(s);
-      }
-
-      function unloadTelegramWidget() {
-        // удаляем виджет, возвращаем заглушку
-        container.innerHTML = `
-          <button id="stubBtn" disabled
-            style="opacity:.5;cursor:not-allowed;border:1px solid #888;background:transparent;color:#bbb;
-                   padding:12px 20px;border-radius:8px;font-weight:600;">
-            Войти через Telegram (доступно после галочки)
-          </button>`;
-      }
-    })();
-  </script>
-</body>
-  <!-- SITE CONTENT (HIDDEN UNTIL AUTH) -->
-  <div id="site-content" class="wrap" style="display:none;">
-    <div class="container">
-      <section class="hero">
-        <div class="hero-content">
-          <h1>Affective Cybernetics</h1>
-          <p>
-            Affective Cybernetics is a new scientific and philosophical paradigm where emotion becomes a
-            feedback mechanism that regulates intelligent behaviour. It is the art and science of
-            building systems that can feel, understand, and adapt — balancing Emotion (E), Mind (M), and
-            Context (C) in a continuous loop of perception and self-regulation.
-          </p>
-          <p>
-            Unlike conventional affective computing, which classifies emotions, Affective Cybernetics
-            enables systems to self-regulate through emotional feedback — to feel and respond in harmony
-            rather than calculation. Through our ACAI prototype, we aspire to create AI that feels,
-            adapts, and lives in emotional resonance with humanity.
-          </p>
-
-          <div class="links">
-            <a href="https://acai-frontend.onrender.com" class="protected" target="_blank" rel="noopener noreferrer">Experience ACAI</a>
-            <a href="https://acai-backend.onrender.com/state" class="protected" target="_blank" rel="noopener noreferrer">Emotional Core</a>
-            <a href="about.html" class="btn">Learn More</a> <!-- эту оставляем открытой -->
-          </div>
+<body class="bg-grid">
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Aethel Axis Home">
+        <div class="mark" aria-hidden="true"></div>
+        <div>
+          <h1>AETHEL AXIS</h1>
+          <p>Affective Cybernetics Initiative</p>
         </div>
-      </section>
+      </a>
 
-      <footer>© 2025 Affective Cybernetics Research | Engineered by Artem Teteria</footer>
-    </div>
+      <nav class="nav" aria-label="Primary navigation">
+        <a href="#axis">Axis</a>
+        <a href="#domains">Domains</a>
+        <a href="#acai">ACAI</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="cta">
+        <!-- ВСТАВЬ СЮДА СВОЮ ССЫЛКУ НА ACAI -->
+        <a class="btn primary" href="https://acai-frontend.onrender.com" target="_blank" rel="noreferrer">
+          Explore ACAI <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </header>
+
+    <main id="top" class="hero">
+      <div class="panel hero-left">
+        <div class="kicker">
+          <span class="pill"><span class="dot"></span> Under formation • Independent initiative</span>
+        </div>
+
+        <h2 class="title">Engineering an axis for<br/>human-centered intelligent control.</h2>
+
+        <p class="subtitle">
+          <b>Aethel Axis</b> is an independent research & engineering initiative building practical systems at the intersection of
+          <b>Affective Cybernetics</b>, reliability-grade software, and real-world control environments.
+          Our focus is not hype — it’s stability, clarity, and long-term impact.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn" href="#domains">Company Overview</a>
+          <a class="btn" href="#contact">Start a Dialogue</a>
+        </div>
+
+        <div class="meta" aria-label="Key principles">
+          <span class="pill">Responsibility over hype</span>
+          <span class="pill">Systems over slogans</span>
+          <span class="pill">Humans inside the loop</span>
+          <span class="pill">Long-term horizon</span>
+        </div>
+      </div>
+
+      <aside class="panel hero-right">
+        <div class="card" id="axis">
+          <h3>Axis</h3>
+          <p>
+            We design a coherent stack: from behavioral signals and contextual policies to robust runtime control —
+            so intelligent systems stay aligned with purpose, constraints, and people.
+          </p>
+
+          <ul class="list">
+            <li class="li">
+              <span class="ic"></span>
+              <div>
+                <b>Affective Cybernetics</b>
+                <span>Emotion–Mind–Context loops as controllable dynamics, not just “chat behavior”.</span>
+              </div>
+            </li>
+            <li class="li">
+              <span class="ic"></span>
+              <div>
+                <b>Applied Engineering</b>
+                <span>From prototypes to production thinking: observability, safety boundaries, repeatability.</span>
+              </div>
+            </li>
+            <li class="li">
+              <span class="ic"></span>
+              <div>
+                <b>Control Environments</b>
+                <span>Industrial & maritime logic: constraints, alarms, procedures, accountability.</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </aside>
+    </main>
+
+    <section id="domains">
+      <div class="section-title">
+        <h2>Domains</h2>
+        <p class="hint">Clear scope. Strong execution. Quiet confidence.</p>
+      </div>
+
+      <div class="grid">
+        <div class="tile">
+          <h4>Affective Cybernetics</h4>
+          <p>Human-centered control architecture: affect signals, contextual constraints, adaptive policy loops.</p>
+        </div>
+        <div class="tile">
+          <h4>Industrial AI & Diagnostics</h4>
+          <p>Practical AI for control systems: structured reasoning, logs, procedures, operator-grade UX.</p>
+        </div>
+        <div class="tile">
+          <h4>Maritime & Infrastructure Systems</h4>
+          <p>Reliability-first environments where safety, uptime, and clarity define the engineering standard.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="acai">
+      <div class="section-title">
+        <h2>ACAI</h2>
+        <p class="hint">Affective Contextual AI — our flagship research direction.</p>
+      </div>
+
+      <div class="grid">
+        <div class="tile">
+          <h4>What it is</h4>
+          <p>ACAI explores how emotional valence, cognitive intent, and context can be modeled as a feedback-controlled system.</p>
+        </div>
+        <div class="tile">
+          <h4>Why it matters</h4>
+          <p>Instead of “just generation”, we target controllability: stability under stress, policy consistency, transparent behavior.</p>
+        </div>
+        <div class="tile">
+          <h4>Explore</h4>
+          <p>
+            Open the ACAI page / demo / repository here:
+            <a href="https://acai-frontend.onrender.com" target="_blank" rel="noreferrer" style="color:var(--accent); text-decoration:none;">
+              https://YOUR-ACAI-LINK-HERE ↗
+            </a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="section-title">
+        <h2>Contact</h2>
+        <p class="hint">Early strategic dialogue & partnerships.</p>
+      </div>
+
+      <div class="grid">
+        <div class="tile">
+          <h4>Let’s talk</h4>
+          <p>
+            If you’re exploring applied intelligent control, industrial AI, or human-centered systems,
+            we’re open to serious conversations.
+          </p>
+        </div>
+        <div class="tile">
+          <h4>Email</h4>
+          <p>
+            <a href="mailto:msb.aboard.ua@gmail.com" style="color:var(--accent); text-decoration:none;">
+              msb.aboard.ua@gmail.com
+            </a><br/>
+            <span style="color:var(--soft)">Contact</span>
+          </p>
+        </div>
+        <div class="tile">
+          <h4>Status</h4>
+          <p>
+            Independent initiative • Company formation in progress • Research & applied engineering •
+            Open for partnerships
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>
+        <div style="color:rgba(255,255,255,.80); font-weight:650; letter-spacing:.4px;">AETHEL AXIS</div>
+        <div>Affective Cybernetics Initiative</div>
+      </div>
+
+      <div class="legal">
+        <div>© <span id="y"></span> Artem Teteria. All rights reserved.</div>
+        <div>
+          <a href="#top">Top</a> · <a href="#contact">Contact</a>
+        </div>
+      </div>
+    </footer>
   </div>
 
   <script>
-  (function () {
-    const qs = new URLSearchParams(location.search);
-
-    // читаем токен из URL или localStorage
-    let jwt = qs.get("token") || localStorage.getItem("acai_jwt") || "";
-
-    // если пришёл ?token=..., сохраняем и сразу обновляем переменную
-    if (qs.get("token")) {
-      localStorage.setItem("acai_jwt", qs.get("token"));
-      jwt = qs.get("token"); // <-- обновляем jwt
-      history.replaceState({}, "", location.pathname + location.hash);
-    }
-
-    const authed = !!(jwt && jwt.length > 10);
-    const authEl = document.getElementById("auth-screen");
-    const siteEl = document.getElementById("site-content");
-
-    if (authed) {
-      siteEl.style.display = "block";
-      authEl.classList.add("hidden");
-      setTimeout(() => { authEl.style.display = "none"; }, 350);
-    } else {
-      siteEl.style.display = "none";
-      authEl.style.display = "flex";
-      authEl.classList.remove("hidden");
-    }
-
-    // 🔐 ДОБАВЛЕНИЕ: автоподстановка токена в защищённые ссылки
-    document.querySelectorAll("a.protected").forEach(a => {
-      if (jwt && jwt.length > 10) {
-        const url = new URL(a.href);
-        url.searchParams.set("token", jwt);
-        a.href = url.toString();
-      } else {
-        // если токена нет — редиректим на главную
-        a.addEventListener("click", (e) => {
-          e.preventDefault();
-          window.location.href = "https://affectivecybernetics.onrender.com";
-        });
-      }
-    });
-
-    // опционально: выход
-    window.acaiLogout = function(){
-      localStorage.removeItem("acai_jwt");
-      location.reload();
-    };
-  })();
-</script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
