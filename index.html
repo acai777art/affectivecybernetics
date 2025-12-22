@@ -2,23 +2,29 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Aethel Axis — Affective Cybernetics Initiative</title>
-  <meta name="description" content="Aethel Axis is an independent research & engineering initiative focused on Affective Cybernetics, human-centered control, and applied intelligent systems." />
+  <meta name="description" content="Aethel Axis — independent research & engineering initiative focused on Affective Cybernetics and human-centered intelligent control." />
   <meta name="theme-color" content="#070A10" />
 
   <style>
     :root{
+      /* === ACAI-like palette === */
       --bg:#070A10;
-      --bg2:#0B1020;
-      --card:rgba(255,255,255,.06);
-      --stroke:rgba(255,255,255,.10);
-      --text:rgba(255,255,255,.92);
-      --muted:rgba(255,255,255,.66);
-      --soft:rgba(255,255,255,.42);
-      --accent:#38F2C2;      /* как стрелка в лого */
-      --accent2:#F2C94C;     /* золотой штрих */
-      --shadow: 0 18px 60px rgba(0,0,0,.55);
+      --bg2:#090F1E;
+      --panel: rgba(255,255,255,.045);
+      --panel2: rgba(0,0,0,.22);
+      --stroke: rgba(255,255,255,.11);
+
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+      --soft: rgba(255,255,255,.48);
+
+      --accent: #49E6FF;   /* cold cyan */
+      --accent2:#B06CFF;   /* violet glow */
+      --accent3:#38F2C2;   /* your arrow green */
+
+      --shadow: 0 18px 70px rgba(0,0,0,.62);
       --radius: 18px;
       --max: 1120px;
       --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial;
@@ -30,79 +36,115 @@
       margin:0;
       font-family:var(--font);
       color:var(--text);
-      background: radial-gradient(1200px 800px at 20% 10%, rgba(56,242,194,.15), transparent 55%),
-                  radial-gradient(900px 700px at 80% 25%, rgba(242,201,76,.10), transparent 60%),
-                  linear-gradient(180deg, var(--bg), var(--bg2));
+      background:
+        radial-gradient(1200px 760px at 18% 10%, rgba(73,230,255,.14), transparent 55%),
+        radial-gradient(900px 680px at 84% 22%, rgba(176,108,255,.12), transparent 60%),
+        radial-gradient(900px 680px at 50% 88%, rgba(56,242,194,.07), transparent 60%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
       overflow-x:hidden;
     }
 
-    /* subtle star grid */
+    /* subtle grid/stars (ACAI-like) */
     .bg-grid:before{
       content:"";
       position:fixed; inset:-2px;
       background:
-        radial-gradient(circle at 10% 30%, rgba(255,255,255,.09) 0 1px, transparent 2px),
-        radial-gradient(circle at 70% 20%, rgba(255,255,255,.06) 0 1px, transparent 2px),
-        radial-gradient(circle at 40% 70%, rgba(255,255,255,.05) 0 1px, transparent 2px),
-        repeating-linear-gradient(0deg, rgba(255,255,255,.04), rgba(255,255,255,.04) 1px, transparent 1px, transparent 48px),
-        repeating-linear-gradient(90deg, rgba(255,255,255,.03), rgba(255,255,255,.03) 1px, transparent 1px, transparent 56px);
-      mask-image: radial-gradient(1200px 700px at 50% 0%, #000 40%, transparent 72%);
+        radial-gradient(circle at 16% 26%, rgba(255,255,255,.10) 0 1px, transparent 2px),
+        radial-gradient(circle at 72% 18%, rgba(255,255,255,.07) 0 1px, transparent 2px),
+        radial-gradient(circle at 44% 76%, rgba(255,255,255,.06) 0 1px, transparent 2px),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.035), rgba(255,255,255,.035) 1px, transparent 1px, transparent 48px),
+        repeating-linear-gradient(90deg, rgba(255,255,255,.028), rgba(255,255,255,.028) 1px, transparent 1px, transparent 56px);
+      mask-image: radial-gradient(1200px 720px at 50% 0%, #000 40%, transparent 74%);
       pointer-events:none;
       opacity:.55;
     }
 
     a{color:inherit}
-    .wrap{max-width:var(--max); margin:0 auto; padding:28px 22px 70px}
+    .wrap{max-width:var(--max); margin:0 auto; padding:20px 18px 70px}
+
+    /* ===== Sticky header + mobile nav ===== */
     .topbar{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:14px; padding:14px 0 10px;
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(7,10,16,.62);
+      border-bottom:1px solid rgba(255,255,255,.08);
+      padding:12px 0;
     }
+
+    .topbar-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:0 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
     .brand{
-      display:flex; align-items:center; gap:12px; text-decoration:none;
-      letter-spacing:.4px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      min-width: 220px;
     }
+
+    /* Replace .mark with your logo later if you want */
     .mark{
-      width:34px; height:34px; border-radius:12px;
-      background: linear-gradient(135deg, rgba(56,242,194,.18), rgba(242,201,76,.12));
+      width:36px; height:36px; border-radius:12px;
+      background: linear-gradient(135deg, rgba(73,230,255,.16), rgba(176,108,255,.10));
       border:1px solid var(--stroke);
-      box-shadow: 0 8px 30px rgba(0,0,0,.35);
+      box-shadow: 0 10px 40px rgba(0,0,0,.35);
       position:relative;
       overflow:hidden;
     }
     .mark:after{
       content:"";
       position:absolute; inset:-20%;
-      background: radial-gradient(circle at 30% 30%, rgba(56,242,194,.35), transparent 55%),
-                  radial-gradient(circle at 70% 60%, rgba(242,201,76,.22), transparent 60%);
-      filter: blur(6px);
+      background:
+        radial-gradient(circle at 30% 30%, rgba(73,230,255,.26), transparent 55%),
+        radial-gradient(circle at 70% 60%, rgba(176,108,255,.22), transparent 60%);
+      filter: blur(7px);
       animation: drift 8s ease-in-out infinite;
     }
     @keyframes drift{
       0%,100%{transform:translate3d(0,0,0) scale(1)}
       50%{transform:translate3d(8px,-6px,0) scale(1.03)}
     }
-    .brand h1{font-size:14px; margin:0; font-weight:650}
+
+    .brand h1{font-size:14px; margin:0; font-weight:700; letter-spacing:.6px}
     .brand p{margin:0; font-size:12px; color:var(--muted)}
 
     .nav{
-      display:flex; gap:16px; align-items:center; flex-wrap:wrap;
-      font-size:13px; color:var(--muted);
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      font-size:13px;
+      color:var(--muted);
     }
     .nav a{
-      text-decoration:none; padding:8px 10px; border-radius:12px;
+      text-decoration:none;
+      padding:9px 10px;
+      border-radius:12px;
       border:1px solid transparent;
     }
-    .nav a:hover{border-color:var(--stroke); background:rgba(255,255,255,.04); color:var(--text)}
-
-    .cta{
-      display:flex; gap:10px; align-items:center;
+    .nav a:hover{
+      border-color:rgba(255,255,255,.14);
+      background:rgba(255,255,255,.04);
+      color:var(--text)
     }
+
+    .cta{display:flex; gap:10px; align-items:center}
+
     .btn{
       display:inline-flex; align-items:center; justify-content:center;
       gap:10px;
       padding:11px 14px;
       border-radius:14px;
-      border:1px solid var(--stroke);
+      border:1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.04);
       color:var(--text);
       text-decoration:none;
@@ -110,42 +152,92 @@
       box-shadow: 0 10px 40px rgba(0,0,0,.25);
       transition: transform .15s ease, background .15s ease, border-color .15s ease;
       user-select:none;
+      white-space:nowrap;
     }
-    .btn:hover{transform: translateY(-1px); background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.16)}
+    .btn:hover{transform: translateY(-1px); background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.20)}
     .btn.primary{
-      border-color: rgba(56,242,194,.38);
-      background: linear-gradient(135deg, rgba(56,242,194,.16), rgba(242,201,76,.08));
+      border-color: rgba(73,230,255,.35);
+      background: linear-gradient(135deg, rgba(73,230,255,.14), rgba(176,108,255,.08));
     }
+
+    /* Burger */
+    .burger{
+      display:none;
+      width:42px; height:42px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      align-items:center; justify-content:center;
+      cursor:pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .burger span{
+      display:block;
+      width:18px; height:2px;
+      background: rgba(255,255,255,.84);
+      position:relative;
+      border-radius:2px;
+    }
+    .burger span:before,.burger span:after{
+      content:"";
+      position:absolute; left:0;
+      width:18px; height:2px;
+      background: rgba(255,255,255,.84);
+      border-radius:2px;
+    }
+    .burger span:before{top:-6px}
+    .burger span:after{top:6px}
+
+    .mobile-nav{
+      display:none;
+      max-width:var(--max);
+      margin:10px auto 0;
+      padding:0 18px 12px;
+    }
+    .mobile-nav.open{display:block}
+    .mobile-nav .nav{
+      width:100%;
+      gap:8px;
+    }
+    .mobile-nav .nav a{
+      flex:1 1 auto;
+      text-align:center;
+      padding:12px 10px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+    }
+
+    /* ===== Pills / dot ===== */
     .pill{
       display:inline-flex; align-items:center; gap:10px;
       padding:8px 12px;
       border-radius:999px;
-      border:1px solid var(--stroke);
-      background: rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.20);
       color:var(--muted);
       font-size:12px;
     }
     .dot{
       width:8px; height:8px; border-radius:999px;
       background: var(--accent);
-      box-shadow: 0 0 18px rgba(56,242,194,.55);
+      box-shadow: 0 0 18px rgba(73,230,255,.55);
     }
 
-    /* hero */
+    /* ===== Hero ===== */
+    main{max-width:var(--max); margin:0 auto; padding:20px 18px 0}
     .hero{
-      margin-top:34px;
+      margin-top:18px;
       display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:22px;
+      grid-template-columns: 1.15fr .85fr;
+      gap:18px;
       align-items:stretch;
     }
-    @media (max-width: 920px){
-      .hero{grid-template-columns:1fr}
-    }
+
     .panel{
       border-radius:var(--radius);
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.035);
+      border:1px solid rgba(255,255,255,.12);
+      background: var(--panel);
       box-shadow: var(--shadow);
       overflow:hidden;
       position:relative;
@@ -153,101 +245,97 @@
     .panel:before{
       content:"";
       position:absolute; inset:-2px;
-      background: radial-gradient(700px 420px at 25% 15%, rgba(56,242,194,.12), transparent 60%),
-                  radial-gradient(600px 420px at 85% 55%, rgba(242,201,76,.10), transparent 65%);
+      background:
+        radial-gradient(700px 420px at 25% 15%, rgba(73,230,255,.10), transparent 60%),
+        radial-gradient(600px 420px at 85% 55%, rgba(176,108,255,.10), transparent 65%);
       pointer-events:none;
       opacity:.9;
     }
-    .hero-left{padding:28px 26px 24px}
+
+    .hero-left{padding:26px 24px 22px}
     .kicker{display:flex; align-items:center; gap:10px; margin-bottom:14px}
-    .kicker strong{color:var(--text); font-weight:650}
+
     .title{
-      font-size:44px;
-      line-height:1.05;
+      font-size:46px;
+      line-height:1.04;
       margin:0 0 14px;
-      letter-spacing:-.7px;
-    }
-    @media (max-width: 520px){
-      .title{font-size:36px}
+      letter-spacing:-.9px;
     }
     .subtitle{
-      margin:0 0 20px;
+      margin:0 0 18px;
       color:var(--muted);
       font-size:15.5px;
-      line-height:1.55;
-      max-width: 58ch;
+      line-height:1.6;
+      max-width: 62ch;
     }
     .hero-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:6px}
-    .meta{
-      display:flex; gap:12px; flex-wrap:wrap;
-      margin-top:18px;
-    }
+    .meta{display:flex; gap:10px; flex-wrap:wrap; margin-top:18px}
 
-    /* right card */
-    .hero-right{padding:22px}
+    .hero-right{padding:20px}
     .card{
       padding:18px;
       border-radius:16px;
-      border:1px solid var(--stroke);
-      background: rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.12);
+      background: var(--panel2);
     }
     .card h3{margin:0 0 6px; font-size:14px; letter-spacing:.2px}
-    .card p{margin:0; color:var(--muted); font-size:13px; line-height:1.55}
-    .list{
-      margin:14px 0 0; padding:0; list-style:none;
-      display:grid; gap:10px;
-    }
+    .card p{margin:0; color:var(--muted); font-size:13px; line-height:1.6}
+
+    .list{margin:14px 0 0; padding:0; list-style:none; display:grid; gap:10px}
     .li{
       display:flex; gap:10px; align-items:flex-start;
       padding:10px 12px;
       border-radius:14px;
       background: rgba(255,255,255,.03);
-      border:1px solid rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.10);
     }
     .li b{display:block; font-size:13px}
-    .li span{display:block; margin-top:2px; color:var(--muted); font-size:12.5px; line-height:1.45}
+    .li span{display:block; margin-top:2px; color:var(--muted); font-size:12.5px; line-height:1.5}
     .ic{
       width:10px; height:10px; border-radius:999px;
       margin-top:4px;
-      background: linear-gradient(180deg, var(--accent), rgba(56,242,194,.2));
-      box-shadow: 0 0 18px rgba(56,242,194,.35);
+      background: linear-gradient(180deg, var(--accent), rgba(73,230,255,.18));
+      box-shadow: 0 0 18px rgba(73,230,255,.35);
       flex:0 0 auto;
     }
 
-    /* sections */
-    section{margin-top:18px}
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:14px;
-    }
-    @media (max-width: 920px){ .grid{grid-template-columns:1fr} }
-    .tile{
-      padding:18px;
-      border-radius:16px;
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.03);
-      box-shadow: 0 10px 40px rgba(0,0,0,.18);
-    }
-    .tile h4{margin:0 0 6px; font-size:13.5px; letter-spacing:.2px}
-    .tile p{margin:0; color:var(--muted); font-size:13px; line-height:1.55}
+    /* ===== Sections ===== */
+    section{max-width:var(--max); margin:18px auto 0; padding:0 18px}
     .section-title{
-      margin:24px 0 12px;
+      margin:22px 0 12px;
       display:flex; align-items:flex-end; justify-content:space-between; gap:12px;
     }
     .section-title h2{
       margin:0;
-      font-size:15px;
-      letter-spacing:.6px;
+      font-size:14px;
+      letter-spacing:.9px;
       color:rgba(255,255,255,.86);
       text-transform:uppercase;
     }
     .section-title .hint{margin:0; color:var(--soft); font-size:12.5px}
 
-    /* footer */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+    }
+    .tile{
+      padding:18px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      box-shadow: 0 10px 40px rgba(0,0,0,.18);
+    }
+    .tile h4{margin:0 0 6px; font-size:13.5px; letter-spacing:.2px}
+    .tile p{margin:0; color:var(--muted); font-size:13px; line-height:1.6}
+    .tile a{color:var(--accent); text-decoration:none}
+    .tile a:hover{opacity:.9}
+
+    /* ===== Footer ===== */
     footer{
-      margin-top:34px;
-      padding-top:18px;
+      max-width:var(--max);
+      margin:34px auto 0;
+      padding:18px 18px 0;
       border-top:1px solid rgba(255,255,255,.10);
       color:var(--muted);
       font-size:12.5px;
@@ -255,12 +343,41 @@
     }
     .legal a{color:var(--muted); text-decoration:none}
     .legal a:hover{color:var(--text)}
+
+    /* ===== Mobile tuning ===== */
+    @media (max-width: 920px){
+      .hero{grid-template-columns:1fr}
+      .title{font-size:40px}
+      .grid{grid-template-columns:1fr}
+    }
+    @media (max-width: 680px){
+      .nav{display:none}
+      .burger{display:inline-flex}
+      .brand{min-width:auto}
+      .wrap{padding:0 0 70px}
+      main{padding:16px 14px 0}
+      section{padding:0 14px}
+      .hero-left{padding:20px 18px}
+      .hero-right{padding:14px}
+      .title{font-size:34px}
+      .subtitle{font-size:15px}
+      .btn{width:100%; padding:12px 14px; font-size:14px}
+      .hero-actions{gap:10px}
+      .pill{font-size:12px}
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .mark:after{animation:none}
+      .btn{transition:none}
+    }
   </style>
 </head>
 
 <body class="bg-grid">
-  <div class="wrap">
-    <header class="topbar">
+  <!-- Sticky header -->
+  <header class="topbar">
+    <div class="topbar-inner">
       <a class="brand" href="#top" aria-label="Aethel Axis Home">
         <div class="mark" aria-hidden="true"></div>
         <div>
@@ -277,174 +394,195 @@
       </nav>
 
       <div class="cta">
-        <!-- ВСТАВЬ СЮДА СВОЮ ССЫЛКУ НА ACAI -->
         <a class="btn primary" href="https://acai-frontend.onrender.com" target="_blank" rel="noreferrer">
           Explore ACAI <span aria-hidden="true">↗</span>
         </a>
+        <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+          <span aria-hidden="true"></span>
+        </button>
       </div>
-    </header>
+    </div>
 
-    <main id="top" class="hero">
-      <div class="panel hero-left">
-        <div class="kicker">
-          <span class="pill"><span class="dot"></span> Under formation • Independent initiative</span>
-        </div>
+    <!-- Mobile nav -->
+    <div class="mobile-nav" id="mobileNav">
+      <nav class="nav" aria-label="Mobile navigation">
+        <a href="#axis">Axis</a>
+        <a href="#domains">Domains</a>
+        <a href="#acai">ACAI</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-        <h2 class="title">Engineering an axis for<br/>human-centered intelligent control.</h2>
+  <main id="top" class="hero">
+    <div class="panel hero-left">
+      <div class="kicker">
+        <span class="pill"><span class="dot"></span> Under formation • Independent initiative</span>
+      </div>
 
-        <p class="subtitle">
-          <b>Aethel Axis</b> is an independent research & engineering initiative building practical systems at the intersection of
-          <b>Affective Cybernetics</b>, reliability-grade software, and real-world control environments.
-          Our focus is not hype — it’s stability, clarity, and long-term impact.
+      <h2 class="title">Engineering an axis for<br/>human-centered intelligent control.</h2>
+
+      <p class="subtitle">
+        <b>Aethel Axis</b> is an independent research &amp; engineering initiative building practical systems at the intersection of
+        <b>Affective Cybernetics</b>, reliability-grade software, and real-world control environments.
+        Our focus is not hype — it’s stability, clarity, and long-term impact.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn" href="#domains">Company Overview</a>
+        <a class="btn" href="#contact">Start a Dialogue</a>
+      </div>
+
+      <div class="meta" aria-label="Key principles">
+        <span class="pill">Responsibility over hype</span>
+        <span class="pill">Systems over slogans</span>
+        <span class="pill">Humans inside the loop</span>
+        <span class="pill">Long-term horizon</span>
+      </div>
+    </div>
+
+    <aside class="panel hero-right">
+      <div class="card" id="axis">
+        <h3>Axis</h3>
+        <p>
+          We design a coherent stack: from behavioral signals and contextual policies to robust runtime control —
+          so intelligent systems stay aligned with purpose, constraints, and people.
         </p>
 
-        <div class="hero-actions">
-          <a class="btn" href="#domains">Company Overview</a>
-          <a class="btn" href="#contact">Start a Dialogue</a>
-        </div>
-
-        <div class="meta" aria-label="Key principles">
-          <span class="pill">Responsibility over hype</span>
-          <span class="pill">Systems over slogans</span>
-          <span class="pill">Humans inside the loop</span>
-          <span class="pill">Long-term horizon</span>
-        </div>
+        <ul class="list">
+          <li class="li">
+            <span class="ic"></span>
+            <div>
+              <b>Affective Cybernetics</b>
+              <span>Emotion–Mind–Context loops as controllable dynamics, not just “chat behavior”.</span>
+            </div>
+          </li>
+          <li class="li">
+            <span class="ic"></span>
+            <div>
+              <b>Applied Engineering</b>
+              <span>From prototypes to production thinking: observability, safety boundaries, repeatability.</span>
+            </div>
+          </li>
+          <li class="li">
+            <span class="ic"></span>
+            <div>
+              <b>Control Environments</b>
+              <span>Industrial &amp; maritime logic: constraints, alarms, procedures, accountability.</span>
+            </div>
+          </li>
+        </ul>
       </div>
+    </aside>
+  </main>
 
-      <aside class="panel hero-right">
-        <div class="card" id="axis">
-          <h3>Axis</h3>
-          <p>
-            We design a coherent stack: from behavioral signals and contextual policies to robust runtime control —
-            so intelligent systems stay aligned with purpose, constraints, and people.
-          </p>
+  <section id="domains">
+    <div class="section-title">
+      <h2>Domains</h2>
+      <p class="hint">Clear scope. Strong execution. Quiet confidence.</p>
+    </div>
 
-          <ul class="list">
-            <li class="li">
-              <span class="ic"></span>
-              <div>
-                <b>Affective Cybernetics</b>
-                <span>Emotion–Mind–Context loops as controllable dynamics, not just “chat behavior”.</span>
-              </div>
-            </li>
-            <li class="li">
-              <span class="ic"></span>
-              <div>
-                <b>Applied Engineering</b>
-                <span>From prototypes to production thinking: observability, safety boundaries, repeatability.</span>
-              </div>
-            </li>
-            <li class="li">
-              <span class="ic"></span>
-              <div>
-                <b>Control Environments</b>
-                <span>Industrial & maritime logic: constraints, alarms, procedures, accountability.</span>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </aside>
-    </main>
-
-    <section id="domains">
-      <div class="section-title">
-        <h2>Domains</h2>
-        <p class="hint">Clear scope. Strong execution. Quiet confidence.</p>
+    <div class="grid">
+      <div class="tile">
+        <h4>Affective Cybernetics</h4>
+        <p>Human-centered control architecture: affect signals, contextual constraints, adaptive policy loops.</p>
       </div>
-
-      <div class="grid">
-        <div class="tile">
-          <h4>Affective Cybernetics</h4>
-          <p>Human-centered control architecture: affect signals, contextual constraints, adaptive policy loops.</p>
-        </div>
-        <div class="tile">
-          <h4>Industrial AI & Diagnostics</h4>
-          <p>Practical AI for control systems: structured reasoning, logs, procedures, operator-grade UX.</p>
-        </div>
-        <div class="tile">
-          <h4>Maritime & Infrastructure Systems</h4>
-          <p>Reliability-first environments where safety, uptime, and clarity define the engineering standard.</p>
-        </div>
+      <div class="tile">
+        <h4>Industrial AI &amp; Diagnostics</h4>
+        <p>Practical AI for control systems: structured reasoning, logs, procedures, operator-grade UX.</p>
       </div>
-    </section>
-
-    <section id="acai">
-      <div class="section-title">
-        <h2>ACAI</h2>
-        <p class="hint">Affective Contextual AI — our flagship research direction.</p>
+      <div class="tile">
+        <h4>Maritime &amp; Infrastructure Systems</h4>
+        <p>Reliability-first environments where safety, uptime, and clarity define the engineering standard.</p>
       </div>
+    </div>
+  </section>
 
-      <div class="grid">
-        <div class="tile">
-          <h4>What it is</h4>
-          <p>ACAI explores how emotional valence, cognitive intent, and context can be modeled as a feedback-controlled system.</p>
-        </div>
-        <div class="tile">
-          <h4>Why it matters</h4>
-          <p>Instead of “just generation”, we target controllability: stability under stress, policy consistency, transparent behavior.</p>
-        </div>
-        <div class="tile">
-          <h4>Explore</h4>
-          <p>
-            Open the ACAI page / demo / repository here:
-            <a href="https://acai-frontend.onrender.com" target="_blank" rel="noreferrer" style="color:var(--accent); text-decoration:none;">
-              https://YOUR-ACAI-LINK-HERE ↗
-            </a>
-          </p>
-        </div>
+  <section id="acai">
+    <div class="section-title">
+      <h2>ACAI</h2>
+      <p class="hint">Affective Contextual AI — our flagship research direction.</p>
+    </div>
+
+    <div class="grid">
+      <div class="tile">
+        <h4>What it is</h4>
+        <p>ACAI explores how emotional valence, cognitive intent, and context can be modeled as a feedback-controlled system.</p>
       </div>
-    </section>
-
-    <section id="contact">
-      <div class="section-title">
-        <h2>Contact</h2>
-        <p class="hint">Early strategic dialogue & partnerships.</p>
+      <div class="tile">
+        <h4>Why it matters</h4>
+        <p>Instead of “just generation”, we target controllability: stability under stress, policy consistency, transparent behavior.</p>
       </div>
-
-      <div class="grid">
-        <div class="tile">
-          <h4>Let’s talk</h4>
-          <p>
-            If you’re exploring applied intelligent control, industrial AI, or human-centered systems,
-            we’re open to serious conversations.
-          </p>
-        </div>
-        <div class="tile">
-          <h4>Email</h4>
-          <p>
-            <a href="mailto:msb.aboard.ua@gmail.com" style="color:var(--accent); text-decoration:none;">
-              msb.aboard.ua@gmail.com
-            </a><br/>
-            <span style="color:var(--soft)">Contact</span>
-          </p>
-        </div>
-        <div class="tile">
-          <h4>Status</h4>
-          <p>
-            Independent initiative • Company formation in progress • Research & applied engineering •
-            Open for partnerships
-          </p>
-        </div>
+      <div class="tile">
+        <h4>Explore</h4>
+        <p>
+          Open ACAI:
+          <a href="https://acai-frontend.onrender.com" target="_blank" rel="noreferrer">
+            acai-frontend.onrender.com ↗
+          </a>
+        </p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <footer>
+  <section id="contact">
+    <div class="section-title">
+      <h2>Contact</h2>
+      <p class="hint">Early strategic dialogue &amp; partnerships.</p>
+    </div>
+
+    <div class="grid">
+      <div class="tile">
+        <h4>Let’s talk</h4>
+        <p>If you’re exploring applied intelligent control, industrial AI, or human-centered systems — we’re open to serious conversations.</p>
+      </div>
+      <div class="tile">
+        <h4>Email</h4>
+        <p>
+          <a href="mailto:msb.aboard.ua@gmail.com">msb.aboard.ua@gmail.com</a><br/>
+          <span style="color:var(--soft)">Contact</span>
+        </p>
+      </div>
+      <div class="tile">
+        <h4>Status</h4>
+        <p>Independent initiative • Company formation in progress • Research &amp; applied engineering • Open for partnerships</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>
+      <div style="color:rgba(255,255,255,.84); font-weight:750; letter-spacing:.6px;">AETHEL AXIS</div>
+      <div>Affective Cybernetics Initiative</div>
+    </div>
+
+    <div class="legal">
+      <div>© <span id="y"></span> Artem Teteria. All rights reserved.</div>
       <div>
-        <div style="color:rgba(255,255,255,.80); font-weight:650; letter-spacing:.4px;">AETHEL AXIS</div>
-        <div>Affective Cybernetics Initiative</div>
+        <a href="#top">Top</a> · <a href="#contact">Contact</a>
       </div>
-
-      <div class="legal">
-        <div>© <span id="y"></span> Artem Teteria. All rights reserved.</div>
-        <div>
-          <a href="#top">Top</a> · <a href="#contact">Contact</a>
-        </div>
-      </div>
-    </footer>
-  </div>
+    </div>
+  </footer>
 
   <script>
     document.getElementById("y").textContent = new Date().getFullYear();
+
+    // Mobile menu
+    const burger = document.getElementById("burger");
+    const mobileNav = document.getElementById("mobileNav");
+
+    burger.addEventListener("click", () => {
+      const open = mobileNav.classList.toggle("open");
+      burger.setAttribute("aria-expanded", String(open));
+    });
+
+    // Close menu when clicking a link
+    mobileNav.querySelectorAll("a").forEach(a => {
+      a.addEventListener("click", () => {
+        mobileNav.classList.remove("open");
+        burger.setAttribute("aria-expanded", "false");
+      });
+    });
   </script>
 </body>
 </html>
