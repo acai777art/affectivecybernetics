@@ -438,6 +438,70 @@ body.drawer-open .drawer { display: block; }
   }
 }
 </style>
+
+<style>
+/* --- Patch: restyle drawer close button to match Æthel Axis palette --- */
+.drawer .close-btn{
+  color: rgba(212,175,55,0.95) !important;
+  background: rgba(20,22,24,0.75) !important;
+  border: 1px solid rgba(212,175,55,0.35) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    0 8px 18px rgba(0,0,0,0.35) !important;
+  font-size: 18px !important;
+}
+.drawer .close-btn:hover{
+  background: rgba(26,28,30,0.85) !important;
+  border-color: rgba(212,175,55,0.55) !important;
+}
+.drawer .close-btn:focus{
+  outline: none !important;
+  box-shadow:
+    0 0 0 2px rgba(212,175,55,0.35),
+    0 8px 18px rgba(0,0,0,0.35) !important;
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cormorant+Unicase:wght@300;400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap" rel="stylesheet">
+
+<style>
+/* === Font Variant B: Inter clean body + Cormorant Italic accents === */
+:root{
+  --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  --font-accent: "Cormorant", ui-serif, Georgia, "Times New Roman", serif;
+  --font-head: "Cormorant Unicase", "Cormorant", ui-serif, Georgia, "Times New Roman", serif;
+}
+
+html, body{
+  font-family: var(--font-body) !important;
+  font-style: normal !important;
+  font-weight: 300 !important;
+  letter-spacing: 0.01em;
+}
+
+/* headings/brand */
+h1, h2, h3, .brand, .title, .logo-text{
+  font-family: var(--font-head) !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+}
+
+/* accents: tagline/subtitle + menu titles */
+.subtitle, .tagline, .kicker, .drawer h2, .drawer h3{
+  font-family: var(--font-accent) !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.10em !important;
+}
+
+/* small paragraphs in drawer: keep Inter for readability, but slightly softer */
+.drawer p, .drawer li{
+  font-weight: 300 !important;
+  line-height: 1.60 !important;
+}
+</style>
+
 </head>
 <body>
 
@@ -457,9 +521,9 @@ body.drawer-open .drawer { display: block; }
     <button class="close-btn" id="closeDrawer" aria-label="Close menu">✕</button>
   </div>
 
-  <h3>What is Æthel Axis?</h3>
+  <h3>What is ÆTHEL Axis?</h3>
   <p>
-    Æthel Axis is a quiet doorway into a new kind of assistant — one that tries to understand you first.
+    ÆTHEL Axis is a quiet doorway into a new kind of assistant — one that tries to understand you first.
     Not by “judging” you, but by listening to the meaning and mood of your words, so the reply feels calmer,
     more respectful, and more human.
   </p>
