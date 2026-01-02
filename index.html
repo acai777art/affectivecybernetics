@@ -143,6 +143,127 @@
             letter-spacing: 2px;
             text-transform: uppercase;
         }
+    
+        /* --- Privacy Policy modal --- */
+        .btn-policy{
+            margin-top: 12px;
+            display: block;
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.92);
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 0.78rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.35s;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .btn-policy:hover{
+            transform: translateY(-1px);
+            border-color: rgba(243,213,154,0.5);
+            box-shadow: 0 14px 28px rgba(0,0,0,0.22);
+        }
+
+        .modal-overlay{
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 9999;
+        }
+        .modal-overlay.show{ display: flex; }
+
+        .modal{
+            width: min(860px, 100%);
+            max-height: min(86vh, 760px);
+            overflow: auto;
+            border-radius: 18px;
+            background: rgba(13, 17, 17, 0.92);
+            border: 1px solid rgba(255,255,255,0.12);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+        .modal-header{
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 16px 18px;
+            background: rgba(13, 17, 17, 0.9);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .modal-title{
+            font-size: 0.82rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.88);
+        }
+        .modal-close{
+            border: 1px solid rgba(255,255,255,0.14);
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.88);
+            border-radius: 12px;
+            padding: 10px 12px;
+            cursor: pointer;
+            transition: 0.25s;
+            font-weight: 600;
+        }
+        .modal-close:hover{
+            border-color: rgba(243,213,154,0.5);
+            transform: translateY(-1px);
+        }
+        .modal-body{
+            padding: 18px 18px 22px;
+            color: rgba(255,255,255,0.86);
+            line-height: 1.55;
+            font-size: 0.95rem;
+        }
+        .modal-body h2{
+            margin: 0 0 6px;
+            font-size: 1.25rem;
+            letter-spacing: 1px;
+        }
+        .modal-body h3{
+            margin: 18px 0 8px;
+            font-size: 1.02rem;
+            letter-spacing: 0.5px;
+            color: rgba(243,213,154,0.92);
+        }
+        .modal-body ul{
+            margin: 10px 0 12px 18px;
+        }
+        .modal-body li{ margin: 6px 0; }
+        .modal-body a{
+            color: rgba(243,213,154,0.95);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(243,213,154,0.35);
+        }
+        .modal-body a:hover{
+            border-bottom-color: rgba(243,213,154,0.75);
+        }
+        .policy-meta{
+            margin-top: 0;
+            color: rgba(255,255,255,0.75);
+            font-size: 0.92rem;
+        }
+        .policy-footnote{
+            margin-top: 18px;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.72);
+        }
+
     </style>
 </head>
 <body>
@@ -163,8 +284,116 @@
 
         <a href="https://t.me/acai_emotional_bot" class="btn-telegram">Open Telegram</a>
         
+        
+        <button type="button" class="btn-policy" id="policyBtn" aria-haspopup="dialog" aria-controls="policyModal">
+            Privacy Policy
+        </button>
+
+        <div class="modal-overlay" id="policyModal" role="dialog" aria-modal="true" aria-hidden="true">
+            <div class="modal" role="document">
+                <div class="modal-header">
+                    <div class="modal-title">Privacy Policy</div>
+                    <button class="modal-close" id="policyClose" type="button" aria-label="Close">Close</button>
+                </div>
+                <div class="modal-body">
+                    
+<h2>Privacy Policy and Terms of Use</h2>
+<p class="policy-meta"><strong>Effective date:</strong> January 2026</p>
+
+<h3>1. Overview</h3>
+<p>This website and the ACAI Telegram bot (“ACAI”) provide an experimental conversational assistant. ACAI is <strong>not</strong> a medical, psychological, legal, or financial service. The service is provided “as is” for informational and entertainment purposes only.</p>
+
+<h3>2. Data We Process</h3>
+<p>When you use ACAI, we may process:</p>
+<ul>
+  <li><strong>Telegram account identifiers:</strong> your Telegram user ID, username, and profile first/last name (as provided by the Telegram Bot API).</li>
+  <li><strong>Messages you send:</strong> text you write to the bot and, if you send voice notes, the audio content for transcription.</li>
+  <li><strong>Usage and security logs:</strong> timestamps, basic delivery metadata, and abuse-prevention signals.</li>
+  <li><strong>Optional features you use:</strong>
+    <ul>
+      <li><strong>Web chat:</strong> conversation history stored on our server to provide chat continuity.</li>
+      <li><strong>Long‑term memory:</strong> short extracted “memory” items (e.g., preferences/goals) that the assistant may store to keep context.</li>
+      <li><strong>Manuals/RAG:</strong> files you upload for retrieval (and derived chunks/embeddings).</li>
+    </ul>
+  </li>
+</ul>
+<p>We do not intentionally collect sensitive personal data. Please do not send passwords, access tokens, private keys, or confidential information.</p>
+
+<h3>3. How We Use Data</h3>
+<p>We process data only to:</p>
+<ul>
+  <li>operate the assistant (answering messages, maintaining context, providing voice features);</li>
+  <li>maintain service integrity and prevent abuse;</li>
+  <li>understand aggregate usage to improve reliability and quality.</li>
+</ul>
+
+<h3>4. Sharing and Third Parties</h3>
+<ul>
+  <li><strong>Telegram:</strong> Your communication with ACAI occurs through Telegram. Telegram may process and store your messages according to its own policies. We do not control Telegram’s storage or retention.</li>
+  <li><strong>OpenAI:</strong> To generate replies and to provide speech‑to‑text (STT) and text‑to‑speech (TTS), message content (and voice audio when used) is sent to OpenAI’s APIs. OpenAI’s policies apply to their processing.</li>
+  <li><strong>Hosting:</strong> Our server is hosted on Render.com (United States). Data is stored on our server as described above.</li>
+</ul>
+<p>We do not sell your data and we do not use it for advertising.</p>
+
+<h3>5. Storage and Security</h3>
+<p>We use reasonable technical measures to protect data. However, no system can be guaranteed 100% secure. Access to administrative endpoints is restricted by an admin key. Temporary audio files used for voice features are stored for a short time and deleted after processing when possible.</p>
+
+<h3>6. Data Retention and Your Choices</h3>
+<p>At this time, automated in‑bot deletion may not be available. You can request access to, correction of, or deletion of your stored data by contacting us (see Contact). We will make reasonable efforts to honor verified requests, subject to technical and legal constraints.</p>
+
+<h3>7. Safety Notice</h3>
+<p>ACAI is not a doctor, psychologist, or therapist, and does not provide professional advice. If you are in danger or considering self‑harm, please contact local emergency services or a crisis hotline in your country.</p>
+
+<h3>8. Changes</h3>
+<p>We may update this policy from time to time. The effective date above indicates the latest version.</p>
+
+<h3>9. Contact</h3>
+<ul>
+  <li><strong>Telegram:</strong> <a href="https://t.me/aethelaxis" target="_blank" rel="noopener">(@aethelaxis)</a></li>
+  <li><strong>Email:</strong> <a href="mailto:msb.aboard.ua@gmail.com">msb.aboard.ua@gmail.com</a></li>
+</ul>
+
+<p class="policy-footnote">OpenAI Privacy Policy: <a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener">openai.com/policies/privacy-policy</a></p>
+
+                </div>
+            </div>
+        </div>
+
         <div class="copyright">© Eathel Axis</div>
     </div>
+
+
+<script>
+(function(){
+  const btn = document.getElementById('policyBtn');
+  const modal = document.getElementById('policyModal');
+  const closeBtn = document.getElementById('policyClose');
+
+  if(!btn || !modal || !closeBtn) return;
+
+  function openModal(){
+    modal.classList.add('show');
+    modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+  }
+
+  btn.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+
+  modal.addEventListener('click', function(e){
+    if(e.target === modal) closeModal();
+  });
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && modal.classList.contains('show')) closeModal();
+  });
+})();
+</script>
 
 </body>
 </html>
