@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aethel Axis | First, We Listen</title>
+    <title>Æthel Axis | First, We Listen</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -283,11 +283,233 @@ body {
   overscroll-behavior-y: contain;
 }
 </style>
+
+<style>
+/* --- Top-right menu (serious site drawer) --- */
+.topbar {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + 12px);
+  right: calc(env(safe-area-inset-right, 0px) + 12px);
+  z-index: 50;
+}
+.menu-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(20,22,24,0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.menu-btn:focus { outline: 2px solid rgba(212,175,55,0.35); outline-offset: 2px; }
+.menu-icon {
+  width: 18px;
+  height: 12px;
+  display: grid;
+  gap: 4px;
+}
+.menu-icon span {
+  display: block;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(240,240,240,0.85);
+}
+
+/* Drawer overlay */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 80;
+  display: none;
+}
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: min(92vw, 420px);
+  background: rgba(14,16,17,0.98);
+  border-left: 1px solid rgba(255,255,255,0.08);
+  z-index: 90;
+  display: none;
+  padding: calc(env(safe-area-inset-top, 0px) + 18px) 18px calc(env(safe-area-inset-bottom, 0px) + 18px) 18px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.drawer h3 {
+  margin: 10px 0 6px;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(212,175,55,0.85);
+}
+.drawer p, .drawer li, .drawer a {
+  color: rgba(235,235,235,0.84);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.drawer ul { padding-left: 18px; margin: 8px 0 14px; }
+.drawer a { text-decoration: none; border-bottom: 1px solid rgba(212,175,55,0.25); }
+.drawer a:hover { border-bottom-color: rgba(212,175,55,0.55); }
+.drawer .close-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.drawer .close-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(20,22,24,0.55);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.drawer .close-btn:focus { outline: 2px solid rgba(212,175,55,0.35); outline-offset: 2px; }
+.drawer .title {
+  font-size: 14px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(240,240,240,0.88);
+}
+
+/* When open */
+body.drawer-open { overflow: hidden !important; }
+body.drawer-open .drawer-overlay { display: block; }
+body.drawer-open .drawer { display: block; }
+
+/* Keep main card below */
+.main-wrap { position: relative; z-index: 1; }
+
+@media (max-width: 420px) {
+  .topbar { top: calc(env(safe-area-inset-top, 0px) + 10px); right: calc(env(safe-area-inset-right, 0px) + 10px); }
+}
+</style>
+
+
+<style>
+/* --- Patch: make menu icon perfectly sit inside the card frame --- */
+.topbar{
+  position:absolute !important;
+  top: 16px !important;
+  right: 16px !important;
+  z-index: 20 !important;
+}
+
+/* If there is a main card container, anchor the topbar to it */
+.card, .container, .main-wrap{
+  position: relative;
+}
+
+.menu-btn{
+  width: 46px !important;
+  height: 46px !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(255,255,255,0.10) !important;
+  background: rgba(18,20,22,0.72) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    0 10px 24px rgba(0,0,0,0.30) !important;
+}
+
+/* Make icon visually centered and consistent with typography */
+.menu-icon{
+  width: 18px !important;
+  height: 12px !important;
+  gap: 4px !important;
+}
+.menu-icon span{
+  height: 2px !important;
+  background: rgba(242,242,242,0.86) !important;
+}
+
+/* Respect safe-area on iOS when card is near top */
+@media (max-width: 520px){
+  .topbar{
+    top: calc(env(safe-area-inset-top, 0px) + 14px) !important;
+    right: 14px !important;
+  }
+}
+</style>
 </head>
 <body>
 
+<div class="topbar">
+  <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-haspopup="dialog" aria-controls="siteDrawer">
+    <div class="menu-icon" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+  </button>
+</div>
+
+<div class="drawer-overlay" id="drawerOverlay" aria-hidden="true"></div>
+
+<aside class="drawer" id="siteDrawer" role="dialog" aria-modal="true" aria-label="Site menu">
+  <div class="close-row">
+    <div class="title">ÆTHEL AXIS</div>
+    <button class="close-btn" id="closeDrawer" aria-label="Close menu">✕</button>
+  </div>
+
+  <h3>What is Æthel Axis?</h3>
+  <p>
+    Æthel Axis is a quiet doorway into a new kind of assistant — one that tries to understand you first.
+    Not by “judging” you, but by listening to the meaning and mood of your words, so the reply feels calmer,
+    more respectful, and more human.
+  </p>
+
+  <h3>What you can do here</h3>
+  <ul>
+    <li><b>Open Telegram</b> — tap the button or scan the QR code to start.</li>
+    <li><b>Read the Privacy Policy</b> — what data is used, why it’s needed, and what we don’t do.</li>
+    <li><b>Choose your pace</b> — short messages are okay. Voice is okay. Silence is okay.</li>
+  </ul>
+
+  <h3>What ACAI is (in simple words)</h3>
+  <p>
+    ACAI is an experimental conversational assistant. It’s not a therapist and it doesn’t replace real help.
+    Think of it like a calm companion for reflection: it can help you put thoughts into words, organize feelings,
+    and move step by step when life is heavy.
+  </p>
+
+  <h3>What to expect</h3>
+  <ul>
+    <li><b>Respectful tone</b> — no pressure, no manipulation, no “sales voice”.</li>
+    <li><b>Clarity over noise</b> — fewer words, more meaning.</li>
+    <li><b>You stay in control</b> — you can stop anytime.</li>
+  </ul>
+
+  <h3>What we do NOT do</h3>
+  <ul>
+    <li>No medical, legal, or financial instructions.</li>
+    <li>No advertising, no selling your data.</li>
+    <li>No public posting of your messages.</li>
+  </ul>
+
+  <h3>Contact</h3>
+  <p>
+    Telegram: <a href="https://t.me/aethelaxis" target="_blank" rel="noopener">t.me/aethelaxis</a><br/>
+    Email: <a href="mailto:msb.aboard.ua@gmail.com">msb.aboard.ua@gmail.com</a>
+  </p>
+
+  <h3>Legal</h3>
+  <p>
+    <a href="#privacy-policy" id="drawerPolicyLink">Privacy Policy</a>
+  </p>
+
+  <p style="margin-top:18px;opacity:0.75;font-size:12px;">© ÆTHEL AXIS</p>
+</aside>
+
+<div class="main-wrap">
+
     <div class="card">
-        <div class="title">Aethel Axis</div>
+        <div class="title">Æthel Axis</div>
         <div class="nav-hints">Scan • Enter • Connect</div>
         
         <div class="slogan-main">First, we listen</div>
@@ -377,7 +599,7 @@ body {
             </div>
         </div>
 
-        <div class="copyright">© Aethel Axis</div>
+        <div class="copyright">© Æthel Axis</div>
     </div>
 
 
@@ -409,6 +631,42 @@ body {
 
   document.addEventListener('keydown', function(e){
     if(e.key === 'Escape' && modal.classList.contains('show')) closeModal();
+  });
+})();
+</script>
+
+
+</div>
+
+<script>
+(function(){
+  const body = document.body;
+  const menuBtn = document.getElementById('menuBtn');
+  const overlay = document.getElementById('drawerOverlay');
+  const drawer = document.getElementById('siteDrawer');
+  const closeBtn = document.getElementById('closeDrawer');
+  const policyLink = document.getElementById('drawerPolicyLink');
+
+  function openDrawer(){
+    body.classList.add('drawer-open');
+    // basic focus management
+    setTimeout(()=>{ closeBtn && closeBtn.focus(); }, 0);
+  }
+  function closeDrawer(){
+    body.classList.remove('drawer-open');
+    setTimeout(()=>{ menuBtn && menuBtn.focus(); }, 0);
+  }
+
+  menuBtn && menuBtn.addEventListener('click', openDrawer);
+  overlay && overlay.addEventListener('click', closeDrawer);
+  closeBtn && closeBtn.addEventListener('click', closeDrawer);
+
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape' && body.classList.contains('drawer-open')) closeDrawer();
+  });
+
+  policyLink && policyLink.addEventListener('click', ()=>{
+    closeDrawer();
   });
 })();
 </script>
